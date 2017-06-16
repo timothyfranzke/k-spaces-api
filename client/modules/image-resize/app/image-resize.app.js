@@ -1,0 +1,1 @@
+var imageResizeApp = angular.module('image-resize-app', []);

@@ -1,0 +1,17 @@
+<form name="user" layout="column" flex>
+    <div layout="row" layout-align="center center">
+        <md-input-container>
+            <label>Email</label>
+            <input type="email" name="email" ng-model="user.email" required/>
+        </md-input-container>
+    </div>
+    <div layout="row" layout-align="center center">
+        <md-input-container>
+            <label>Password</label>
+            <input type="password" name="password" ng-model="user.password" required/>
+        </md-input-container>
+    </div>
+    <div layout="row" layout-align="center center">
+        <md-button ng-click="login(user)" ng-disabled="user.$invalid">SUBMIT</md-button>
+    </div>
+</form>

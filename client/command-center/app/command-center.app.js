@@ -1,0 +1,1 @@
+var commandCenterApp = angular.module('command-center-app', ['ui.router', 'ngMaterial', 'ngCookies', 'ngImgCrop', 'angularTrix', 'authentication-app']);

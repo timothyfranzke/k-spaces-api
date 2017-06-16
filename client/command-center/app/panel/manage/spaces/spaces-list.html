@@ -1,0 +1,23 @@
+<md-content>
+    <div class="manageRow" layout="row" ng-repeat="space in spaces" layout-align="space-around center">
+        <div class="manageRowName">
+            <div class="manageImage">
+                <img src="images/kylo.png" width="49" height="50" />
+            </div>
+            {{space.name}}
+        </div>
+
+        <div class="manageRowEmail">
+            {{space.location.name}}
+        </div>
+        <div class="manageRowOptions">
+            <md-button class="ghostButton" ui-sref="spaces.edit({id:space._id})">Edit</md-button>
+
+            <div class="trash" ng-click="delete(space._id, $index)">
+                <img src="images/delete.png" width="14" height="16"/>
+            </div>
+
+        </div>
+
+    </div>
+</md-content>

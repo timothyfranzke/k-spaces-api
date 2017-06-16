@@ -1,0 +1,1 @@
+var loginApp = angular.module('login-app', ['ui.router', 'ngMaterial', 'ngCookies', 'base-service', 'authentication-app']);

@@ -1,0 +1,98 @@
+<md-content layout="column">
+    <div layout-gt-md="row" layout-padding flex>
+        <div layout="column" layout-padding flex="50">
+            <div layout="row" layout-align="start end">
+                <md-input-container>
+                    <label>Location Name <span style="color:red">*</span></label>
+                    <input type="text" ng-model="location.name"/>
+                </md-input-container>
+            </div>
+            Date/Time
+            <div layout="row" layout-align="start" flex>
+                <div layout="row" layout-align="space-around" flex="75">
+                    <md-input-container>
+                        <label>Start Time</label>
+                        <input type="time" ng-model="location.hours.open"/>
+                    </md-input-container>
+                    <md-input-container>
+                        <label>End Time</label>
+                        <input type="time" ng-model="location.hours.close"/>
+                    </md-input-container>
+                </div>
+            </div>
+            <div layout="row" layout-align="start" flex>
+                <div layout="row" layout-padding>
+                    <md-checkbox ng-model="location.days_of_week.sunday">
+                        Su
+                    </md-checkbox>
+                    <md-checkbox ng-model="location.days_of_week.monday">
+                        M
+                    </md-checkbox>
+                    <md-checkbox ng-model="location.days_of_week.tuesday">
+                        Tu
+                    </md-checkbox>
+                    <md-checkbox ng-model="location.days_of_week.wednesday">
+                        W
+                    </md-checkbox>
+                    <md-checkbox ng-model="location.days_of_week.thursday">
+                        Th
+                    </md-checkbox>
+                    <md-checkbox ng-model="location.days_of_week.friday">
+                        F
+                    </md-checkbox>
+                    <md-checkbox ng-model="location.days_of_week.saturday">
+                        Sa
+                    </md-checkbox>
+                </div>
+            </div>
+
+        </div>
+        <md-divider></md-divider>
+        <div layout="column" layout-padding flex="50">
+            <div layout="row" ng-if="!!image" layout-align="end">
+                <img data-ng-src="{{image.full}}" class="avatar"/>
+                <md-button ng-click="createAvatar()" class="material-icons md-fab md-mini md-primary" style="right: 30px">edit</md-button>
+            </div>
+            <div layout="row" ng-if="!image" layout-align="end">
+                <img ng-src="http://www.franzkedesigner.com/img/kspaces/{{location._id}}/1.png?" ng-show="location.hasImage" class="avatar"/>
+                <img ng-src="images/spaces.png" width="200px" height="100%" ng-show="!location.hasImage" class="avatar"/>
+                <md-button ng-click="createAvatar()" class="material-icons md-fab md-mini md-primary" style="right: 30px">edit</md-button>
+            </div>
+            <div layout="row" layout-align="start center" layout-padding>
+                <md-button ng-click="addSpace()" class="md-primary md-fab md-mini">
+                    <md-icon class="material-icons">add</md-icon>
+                </md-button>
+                Add Space
+            </div>
+            <div layout="row" layout-align="space-between start" ng-show="!!location.spaces">
+                Spaces
+                <div class="manageRow" layout="row" ng-repeat="space in location.spaces" layout-align="space-around center">
+                    <div class="manageRowName">
+                        <div class="manageImage">
+                            <img src="images/kylo.png" width="49" height="50" />
+                        </div>
+                        {{space.name}}
+                    </div>
+                    <div class="manageRowOptions">
+                        <md-button class="ghostButton" ui-sref="space.edit({id:space._id})">Edit</md-button>
+                        <div class="trash" ng-click="delete(space._id, $index)">
+                            <img src="images/delete.png" width="14" height="16"/>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div layout="row" layout-align="start" flex>
+        <div layout="row" layout-align="space-bettwen" flex="50">
+            <md-button class="blueButton" ng-click="create(location)" ng-show="!location._id">CREATE</md-button>
+            <md-button class="blueButton" ng-click="update(location)" ng-show="!!location._id">UPDATE</md-button>
+            <md-button class="ghostButton">CANCEL</md-button>
+        </div>
+    </div>
+
+</md-content>
+

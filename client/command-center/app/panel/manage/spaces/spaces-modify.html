@@ -1,0 +1,77 @@
+<md-content layout="column" >
+    <form name="spaceForm" layout-gt-md="row" layout-padding flex>
+        <div layout="column" layout-padding flex="50">
+            <div layout="row" layout-align="space-between start">
+                <md-input-container>
+                    <label>Space Name</label>
+                    <input type="text" ng-model="space.name" required/>
+                </md-input-container>
+            </div>
+            <div layout="row" ng-show="!space.location._id" layout-align="space-between start" flex>
+                <md-input-container ng-show="!space.location._id">
+                    <label>Location</label>
+                    <md-select ng-model="selectedLocation" required>
+                        <md-option ng-repeat="location in locations" ng-value="location">{{location.name}}</md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <div layout="row" ng-show="!!space.location._id" layout-align="space-between start" flex>
+
+                <div layout="row" flex="50" layout-align="space-between start"><label>Location:</label> {{space.location.name}}</div>
+                <div class="manageRowOptions">
+                    <div class="trash" ng-click="deleteLocation()">
+                        <img src="images/delete.png" width="14" height="16"/>
+                    </div>
+                </div>
+            </div>
+            <div layout="row" layout-align="space-between start">
+                <md-input-container class="md-block" md-no-float flex="90">
+                    <textarea autofocus placeholder="Description (Press Enter for New Line)" ng-model="space.description"></textarea>
+                </md-input-container>
+            </div>
+        </div>
+        <md-divider></md-divider>
+        <div layout="column" layout-padding flex="50">
+            <div layout="row" layout-align="start center" layout-padding>
+                <md-button ng-click="selectFaculty()" class="md-primary md-fab md-mini">
+                    <md-icon class="material-icons">add</md-icon>
+                </md-button>
+                Add Faculty
+            </div>
+            <div class="manageRowSpace" layout="row" ng-repeat="member in space.faculty" layout-align="space-around center" flex>
+                <div class="manageRowName">
+                    {{member.legal_name.first}} {{member.legal_name.last}}
+                </div>
+                <div class="manageRowOptions">
+                    <div class="trash" ng-click="deleteFaculty(member._id, $index)">
+                        <img src="images/delete.png" width="14" height="16"/>
+                    </div>
+                </div>
+            </div>
+            <div layout="row" layout-align="start center" layout-padding>
+                <md-button ng-click="selectStudent()" class="md-primary md-fab md-mini">
+                    <md-icon class="material-icons">add</md-icon>
+                </md-button>
+                Add Student
+            </div>
+            <div class="manageRowSpace" layout="row" ng-repeat="student in space.students" layout-align="space-around center" flex>
+                <div layout="row" layout-align="start" flex="50">
+                    {{student.legal_name.first}} {{student.legal_name.last}}
+                </div>
+                <div class="manageRowOptions">
+                    <div class="trash" ng-click="deleteStudent(student._id, $index)">
+                        <img src="images/delete.png" width="14" height="16"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div layout="row" layout-align="start" flex>
+        <div layout="row" layout-align="space-bettwen" flex="50">
+            <md-button class="blueButton" ng-click="create(space)" ng-show="!space._id" ng-disabled="userForm.$invalid">CREATE</md-button>
+            <md-button class="blueButton" ng-click="update(space)" ng-show="!!space._id">UPDATE</md-button>
+            <md-button class="ghostButton">CANCEL</md-button>
+        </div>
+    </div>
+</md-content>
+

@@ -1,0 +1,274 @@
+
+@charset "UTF-8";
+/* CSS Document */
+
+.clear{
+    clear:both;
+}
+
+.messageHolder{
+    display: table;
+    border:1px solid #dde3e4;
+    width: 100%;
+    min-height: 500px;
+}
+
+.messageList{
+    width:50%;
+    display: table-cell;
+    padding: 20px;
+    overflow: scroll;
+}
+
+.previewPane{
+    width: 50%;
+    display: table-cell;
+    border-left:1px solid #dde3e4;
+    padding: 15px 35px;
+    overflow: scroll;
+}
+
+.previewHeader{
+    width:100%;
+    border-bottom:1px solid #dde3e4;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+    font-size: 13px;
+}
+
+.previewHeader strong{
+    display: block;
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+.previewMeta{
+    width:75%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.previewOptions{
+    width: 24%;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: right;
+}
+
+.reply{
+    border:1px solid #e4e8ea;
+    height: 30px;	width: 36px;
+    background: url(../images/reply.png) no-repeat center center #fff;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.replyOptions{
+    border:1px solid #e4e8ea;
+    height: 30px;	width: 20px;
+    background: url(../images/drop.png) no-repeat center center #fff;
+    cursor: pointer;
+    display: inline-block;
+    margin-left: -1px;
+}
+
+.previewExpand{
+    height: 30px;	width: 30px;
+    background: url(../images/expand.png) no-repeat center center;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.previewSubject{
+    font-size: 20px;
+    display: block;
+    font-weight: bold;
+}
+
+.messagesTopLeft{
+    display: inline-block;
+    width: 49%;
+    margin-bottom: -1px;
+    position: relative;
+    z-index: 100;
+}
+
+.messagesTopLeft .adminSearch{
+    padding-left:15px;
+    background: url(../images/search.png) no-repeat;
+    background-position: 95% center;
+    margin-left: 15px;
+}
+.messagesTopLeft .adminSearch:focus{
+    background-image:none !important;
+}
+
+.messagesTopRight{
+    display: inline-block;
+    width: 49.5%;
+    text-align: right;
+}
+
+.messagesTopRight .blueButton{
+    letter-spacing: 2px;
+    background-image: url(../images/compose.png);
+    background-repeat: no-repeat;
+    background-position: 10% center;
+    padding-left: 40px;
+    cursor: pointer;
+}
+
+.messagesTopRight .blueButton:hover{
+    color:#FFF;
+}
+
+.inboxToggle{
+    text-align: center;
+    padding:20px 0;
+    width: 110px;
+    display: inline-block;
+    vertical-align: middle;
+    font-size:13px;
+    color:#a7b1b7;
+    font-weight: bold;
+    letter-spacing: 3px;
+    border:1px solid #e4e8ea;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.sentToggle{
+    text-align: center;
+    padding:20px 0;
+    width: 110px;
+    display: inline-block;
+    vertical-align: middle;
+    font-size:13px;
+    color:#a7b1b7;
+    font-weight: bold;
+    letter-spacing: 3px;
+    border:1px solid #e4e8ea;
+    text-transform: uppercase;
+    margin-left: -1px;
+    cursor: pointer;
+}
+
+.activeToggle{
+    color:#6cc9d7;
+    border-bottom: 1px solid #FFF;
+}
+
+
+.messageSort{
+    border-bottom:3px solid #6cc9d7;
+    padding-bottom:15px;
+    padding-left: 12px;
+}
+
+.messageSortHolder{
+    width: 90%;
+    padding-top: 10%;
+    overflow: scroll;
+}
+
+.messageCheck{
+    border:1px solid #dde3e4;
+    width:20px;
+    height:20px;
+    display: inline-block;
+    vertical-align: middle;
+    background: #FFF;
+}
+
+.messageNewSort{
+    display: inline-block;
+    vertical-align: middle;
+    width: 10%;
+}
+
+.messageSortAll, .messageSortFolder{
+    font-size: 13px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+.messageSortFolder{
+    padding-left: 25px;
+    background: url(../images/folder.png) no-repeat 5px center;
+}
+
+.activeFolder{
+    background-color:#ecf1f4;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 20px;
+}
+
+.messageNewSort{
+    background:url(../images/add-folder.png) no-repeat center center;
+    width:25px;
+    height: 25px;
+    cursor: pointer;
+    float: right;
+    position: relative;
+    z-index: 200;
+    margin-top: 5px;
+    transition: background 0.25s ease;
+    border-radius: 3px;
+}
+
+.messageNewSort:hover{
+    background-color: #ecf1f4;
+}
+
+.singleEmail{
+    width:96%;
+    padding: 20px 2%;
+    border-bottom: 1px solid #ecf1f4;
+}
+
+.singleEmail .messageCheck{
+    vertical-align: top;
+}
+
+.singleEmailMeta{
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 10px;
+    width:20%;
+    font-size: 13px;
+}
+
+.singleEmail strong{
+    display: block;
+    font-size: 16px;
+}
+
+.singleEmailTimestamp{
+    width:40%;
+    text-align: center;
+    font-size: 13px;
+    display: inline-block;
+    vertical-align: middle;
+    padding-top: 10px;
+}
+
+.singleReply{
+    float:right;
+    margin-top: 5px;
+    display: none;
+}
+
+.singleEmail:hover .singleReply{
+    display: block;
+    background-color: #f0f6f7;
+}
+
+
+.singleEmail:hover{
+    background-color: #f0f6f7;
+}

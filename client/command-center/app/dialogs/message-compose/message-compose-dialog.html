@@ -1,0 +1,64 @@
+
+<md-dialog layout="column" class="message-dialog">
+    <md-toolbar layout-align="start center" layout-padding>
+        New Message
+    </md-toolbar>
+    <md-dialog-content layout-padding>
+        <form name="message">
+            <div layout="row" layout-align="space-between start">
+                <md-checkbox ng-model="message.type.email">Email</md-checkbox>
+                <md-checkbox ng-model="message.type.notification">Notification</md-checkbox>
+            </div>
+            <!--div layout="row" layout-align="space-between start" flex>
+                <md-autocomplete
+                        md-no-cache="true"
+                        md-selected-item="selectedItem"
+                        md-search-text-change="search(searchText)"
+                        md-search-text="searchText"
+                        md-selected-item-change="selectItem(item)"
+                        md-items="item in items"
+                        md-item-text="item.legal_name.first"
+                        md-min-length="0"
+                        placeholder="TO:" flex>
+                    <md-item-template>
+                        <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.legal_name.first}} {{item.legal_name.last}}</span>
+                    </md-item-template>
+                    <md-not-found>
+                        No users matching "{{searchText}}" were found.
+                    </md-not-found>
+                </md-autocomplete>
+            </div-->
+            <div layout="row" layout-align="space-between start" flex>
+                <md-input-container flex>
+                    <label>TO:</label>
+                    <input type="email" ng-model="message.to" name="email" required/>
+                    <div ng-messages="message.email.$error">
+                        <div ng-message="required">This field is required!</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <div layout="row" layout-align="space-between start" flex>
+                <md-input-container flex>
+                    <label>Subject</label>
+                    <input type="text" ng-model="message.subject"/>
+                </md-input-container>
+            </div>
+            <div layout="row" layout-align="space-between start" flex>
+                <div layout="column" flex>
+                    <trix-editor angular-trix ng-model="message.body"></trix-editor>
+                </div>
+            </div>
+        </form>
+
+        <md-divider></md-divider>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <md-button ng-click="send(message)">
+
+            SEND
+        </md-button>
+        <md-button ng-click="cancel()">
+            CANCEL
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

@@ -1,0 +1,1 @@
+var baseServiceApp = angular.module('base-service',[]);

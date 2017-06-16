@@ -1,0 +1,49 @@
+<md-dialog aria-label="Find User" flex="30">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Search Users</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon class="material-icons">close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content layout="column" layout-align="center" layout-padding flex>
+        <div layout="row" layout-align="space-between start">
+            <md-autocomplete
+                    md-no-cache="true"
+                    md-selected-item="selectedItem"
+                    md-search-text-change="search(searchText)"
+                    md-search-text="searchText"
+                    md-selected-item-change="selectItem(item)"
+                    md-items="item in items"
+                    md-item-text="item.legal_name.first"
+                    md-min-length="0"
+                    placeholder="Spouse/Partner">
+                <md-item-template>
+                    <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.legal_name.first}} {{item.legal_name.last}}</span>
+                </md-item-template>
+                <md-not-found>
+                    No users matching "{{searchText}}" were found.
+                </md-not-found>
+            </md-autocomplete>
+        </div>
+        <div layout="row" layout-align="space-between start" ng-show="selectedUsers.length > 0">
+            <div layout="column">
+                <div ng-repeat="user in selectedUsers track by user._id">{{user.legal_name.first}} {{user.legal_name.last}}
+                    <div class="trash" ng-click="unselectItem($index)">
+                        <img src="images/delete.png" width="14" height="16"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <md-button ng-click="select(selectedUsers)">
+            SELECT
+        </md-button>
+        <md-button ng-click="cancel()">
+            CANCEL
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

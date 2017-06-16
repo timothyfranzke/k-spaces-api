@@ -1,0 +1,121 @@
+ <!-- Start Messages -->
+ <md-content layout="column" layout-align="center">
+     <div layout="row" flex layout-padding>
+         <div layout="row" flex="50" layout-align="start">
+             <input type="search" class="adminSearch" placeholder="Search Messages...">
+         </div>
+         <div class="messagesTopRight">
+             <md-button class="blueButton compose" ng-click="compose()">
+                 Compose
+             </md-button>
+         </div>
+     </div>
+     <div layout="row" flex>
+         <div flex="45">
+             <md-tabs md-dynamic-height md-border-bottom class="messageHolder">
+                 <md-tab label="Inbox">
+                     <md-content>
+                         <div layout="row" layout-padding>
+                             <md-checkbox></md-checkbox>
+                             <div class="messageSortAll activeFolder">
+                                 All
+                             </div>
+
+                             <!-- Repeat this for any additional folders -->
+                             <div class="messageSortFolder">
+                                 Parents
+                             </div>
+                         </div>
+
+                         <div class="singleEmail">
+                             <div class="singleReply">
+                                 <div class="reply"></div><div class="replyOptions"></div>
+                             </div>
+
+                             <div class="messageCheck"></div>
+
+                             <div class="singleEmailMeta">
+                                 <strong>Email Subject</strong>
+                                 Steve Allee
+                             </div>
+
+                             <div class="singleEmailTimestamp">
+                                 Today
+                             </div>
+
+
+                         </div>
+                         <div class="singleEmail">
+                             <div class="singleReply">
+                                 <div class="reply"></div><div class="replyOptions"></div>
+                             </div>
+
+                             <div class="messageCheck"></div>
+
+                             <div class="singleEmailMeta">
+                                 <strong>Email Subject</strong>
+                                 Steve Allee
+                             </div>
+
+                             <div class="singleEmailTimestamp">
+                                 Today
+                             </div>
+
+
+                         </div>
+                     </md-content>
+                 </md-tab>
+                 <md-tab label="Sent">
+                     <md-content class="messageHolder">
+                         <div class="singleEmail" ng-repeat="message in messages" ng-click="selectMessage(message)">
+                             <div class="singleReply">
+                                 <div class="reply"></div><div class="replyOptions"></div>
+                             </div>
+                             <div class="messageCheck"></div>
+                             <div class="singleEmailMeta">
+                                 <strong>{{message.subject}}</strong>
+                                 {{message.to}}
+                             </div>
+
+                             <div class="singleEmailTimestamp">
+                                 {{message.sent_date | date : 'fullDate'}}
+                             </div>
+                         </div>
+                     </md-content>
+                 </md-tab>
+             </md-tabs>
+         </div>
+        <div flex="55">
+            <div class="previewPane">
+                <div class="previewHeader">
+                    <div class="previewMeta">
+                        <div class="profileImage">
+                            <img src="images/kylo.png" width="49" height="50" />
+                        </div>
+                        <strong>From: Steve Allee</strong>
+                        {{selectedMessage.sent_date | date : 'fullDate'}}
+
+                        <div class="clear"></div>
+                    </div>
+
+                    <div class="previewOptions">
+                        <div class="reply"></div><div class="replyOptions"></div>
+
+                        <div class="previewExpand">
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="previewMessage">
+                    <div class="previewSubject">
+                       {{selectedMessage.subject}}
+                    </div>
+
+                    <p data-ng-bind-html="selectedMessage.body"></p>
+                </div>
+            </div>
+        </div>
+     </div>
+ </md-content>

@@ -1,0 +1,29 @@
+<md-content>
+    <div class="manageRow" layout="row" ng-repeat="user in users" layout-align="space-around center">
+        <div class="manageRowName">
+            <div class="manageImage">
+                <img src="images/spaces.png" width="49" height="50" ng-show="!user.hasImage" />
+                <img data-ng-src="http://www.franzkedesigner.com/img/kspaces/{{user._id}}/thumbs/1.png" data-err-src="images/spaces.png" class="avatar" width="49" height="50" ng-show="user.hasImage" />
+            </div>
+            {{user.legal_name.first}}
+        </div>
+
+        <div class="manageRowEmail">
+            {{user.email}}
+        </div>
+
+        <div class="manageRowPhone">
+            {{user.primary_phone}}
+        </div>
+
+        <div class="manageRowOptions">
+            <md-button class="ghostButton" ui-sref="user.edit({id:user._id})">Edit</md-button>
+
+            <div class="trash" ng-click="delete(user._id, $index)">
+                <img src="images/delete.png" width="14" height="16"/>
+            </div>
+
+        </div>
+
+    </div>
+</md-content>

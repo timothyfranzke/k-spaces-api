@@ -1,0 +1,364 @@
+
+@charset "UTF-8";
+/* CSS Document */
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700|Titillium+Web:400,700');
+
+body{
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background: #ecf1f4;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.pageWrap{
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background: #ecf1f4;
+    position: relative;
+}
+
+h1, h2, h3, hk4, h5, h6{
+    font-family: 'Titillium Web', sans-serif;
+}
+
+.adminSidebarWrap{
+    width: 285px;
+    height: 100%;
+    position: absolute;
+    top:0;
+    left: 0;
+    background: #1d3450;
+}
+
+.adminSidebar{
+    background: #2a4362;
+    padding: 0 0 80px;
+}
+
+.adminLogo{
+    background: url(../images/command-center.png) no-repeat center center;
+    height: 70px;
+}
+
+.createButton{
+    width:85%;
+    display: block;
+    padding:12px 0;
+    text-align: center;
+    background: #55c3d4;
+    color:#FFF;
+    text-decoration: none;
+    border-radius: 40px;
+    margin: 10px auto;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 13px;
+    font-weight: bold;
+    transition: 0.3s background ease;
+}
+
+.createButton:hover{
+    background: #6ad0e0;
+}
+
+.adminMenu{
+    margin: auto;
+}
+
+.adminMenu ul{
+    list-style-type: none;
+    margin:20px auto 0;
+    padding: 0;
+}
+
+.adminMenu ul li{
+    padding: 12px 0 12px 75px;
+    transition: 0.2s background-color ease;
+    background-repeat: no-repeat;
+    background-position: 40px center;
+}
+
+.adminMenu ul li:hover{
+    background-color:#334e6e;
+}
+
+.adminMenu ul li a{
+    color:#FFF;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-decoration: none;
+}
+
+.allUpItem{
+    background:url(../images/all-up.png);
+}
+.allUpItem{
+    background:url(../images/all-up.png);
+}
+.manageItem{
+    background:url(../images/manage.png);
+}
+.messagesItem{
+    background:url(../images/mesages.png);
+}
+.financialsItem{
+    background:url(../images/financial.png);
+}
+.reportsItem{
+    background:url(../images/report.png);
+}
+
+
+.adminPanelWrap{
+
+}
+
+.adminHeader{
+    background: #FFF;
+    padding: 15px 2%;
+    position: relative;
+}
+
+.adminSearch{
+    height: 40px;
+    width: 50%;
+    max-width: 500px;
+    border:1px solid #d7dee2;
+    border-radius: 40px;
+    padding-left: 1%;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    transistion: 1s border ease;
+}
+
+.adminSearch:focus {
+    outline: none;
+    border:1px solid #55c3d4;
+}
+
+.adminCorner{
+    position: absolute;
+    top: 10px;
+    right: 0;
+    width: 300px;
+}
+
+.adminProfile{
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 40px;
+    width: 200px;
+    color:#c0cad0;
+    font-style: italic;
+    font-size: 13px;
+}
+
+.adminProfile h3{
+    font-weight: bold;
+    font-size: 20px;
+    color:#636769;
+    margin: 3px 0 -3px;
+    font-style: normal;
+}
+
+.adminSettings{
+    background: url(../images/settings.png) no-repeat center center;
+    width:50px;
+    height: 50px;
+    display: inline-block;
+    vertical-align: middle;
+    transition: 0.3s background-color ease;
+}
+
+.adminSettings:hover{
+    background-color: #f0f4f7;
+}
+
+.profileImage{
+    width:49px;
+    height: 49px;
+    overflow: hidden;
+    border-radius: 50%;
+    float: left;
+    margin-right: 20px;
+}
+
+.sectionHeaderMain{
+    background: url(../images/bg.jpg) repeat #55c3d4;
+    color: #FFF;
+    padding: 10px 4% 90px;
+}
+
+.sectionHeaderMain h1{
+    font-size: 36px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.contentWrap{
+    margin: -85px 2% 0;
+
+}
+
+.column{
+    margin: 0 0.5%;
+    display: inline-block;
+    background: #FFF;
+    box-shadow:0 1px 0px rgba(0, 0, 0, 0), 0 0 0px rgba(0, 0, 0, 0) inset;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.column:before, .column:after{
+    position:absolute;
+    content:"";
+    top:100px;bottom:5px;left:30px;right:30px;
+    z-index:-1;
+    box-shadow:0 0 40px 3px #cbdce0;
+    border-radius:100px/20px;
+}
+
+.three{
+    width:32%;
+    font-size: 0;
+    vertical-align: top;
+}
+
+.manageContainer{
+    width:80%;
+    margin: 40px auto;
+    text-align: center;
+    position: relative;
+}
+
+.manageIcon{
+    max-width: 120px;
+    height: 90px;
+    margin: auto;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.blueButton{
+    color: #FFFFFF ;
+    font-size: 12px;
+    text-transform: uppercase;
+    border:1px solid #6cc9d7 ;
+    border-radius: 40px;
+    display: inline-block;
+    margin: 10px auto;
+    background:#6cc9d7 ;
+    width:auto;
+    text-align: center;
+    text-decoration: none;
+    transition: 0.5s ease;
+}
+
+.blueButton:hover{
+    color: #6ad0e0 ;
+    border-color: #6ad0e0 ;
+}
+
+textarea.md-input {
+    max-height: 150px;
+    overflow: auto;
+}
+
+.locationIcon{
+    background-image: url(../images/locations.png);
+}
+.spacesIcon{
+    background-image: url(../images/spaces.png);
+}
+.usersIcon{
+    background-image: url(../images/users.png);
+}
+.eventsIcon{
+    background-image: url(../images/cal.png);
+}
+.vendorsIcon{
+    background-image: url(../images/vendors.png);
+}
+
+.manageContainer h3{
+    color: #55c3d4;
+    font-weight: bold;
+    font-size: 28px;
+    margin: 10px auto;
+}
+
+.ghostButton{
+    color: #9a9a9a;
+    font-size: 12px;
+    text-transform: uppercase;
+    border:1px solid #c8c8c8;
+    border-radius: 40px;
+    display: inline-block;
+    margin: 10px auto;
+    background:none;
+    width:auto;
+
+    text-align: center;
+    text-decoration: none;
+    transition: 0.5s ease;;
+}
+
+.ghostButton:hover{
+    color: #2a4362;
+    border-color: #2a4362;
+}
+
+.manageAdd{
+    width:40px;
+    height: 40px;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: #55c3d4;
+    color:#FFF;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 50%;
+    font-size: 29px;
+    text-align: center;
+    transition: 0.2s ease;
+}
+
+.manageAdd:hover{
+    background:#294361;
+}
+
+.loadOverlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10,25,42,0.7);
+    z-index: 10000;
+    text-align: center;
+}
+
+.loadOverlayImgHolder{
+    position: relative;
+    width: 100%;
+    height:100%;
+}
+
+.loadOverlay #loading{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.message-dialog{
+    width: 66%;
+    height: 66%;
+}

@@ -1,0 +1,60 @@
+@charset "UTF-8";
+/* CSS Document */
+
+.manageRow{
+    color:#575757;
+    width: 96%;
+    padding: 10px 2%;
+}
+.manageRowSpace{
+    color:#575757;
+    width: 96%;
+}
+.manageRow:nth-child(even){
+    background: #f0f6f7;
+}
+
+.manageImage{
+    width:49px;
+    height: 49px;
+    overflow: hidden;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.manageRowName, .manageRowEmail,
+.manageRowPhone, .manageRowOptions{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.manageRowName, .manageRowEmail, .manageRowPhone{
+    width:27%;
+}
+
+.manageRowName{
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.manageRowEmail, .manageRowPhone{
+    font-size: 13px;
+}
+
+.manageRowOptions{
+    width: 15%;
+}
+
+.trash{
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 15px;
+    margin-left: 15px;
+    border-left: 1px solid #d7e6e8;
+}
+
+.avatar {
+    border-radius: 50%;
+}

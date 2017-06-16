@@ -1,0 +1,33 @@
+<div class="adminPanelWrap">
+
+    <div class="adminHeader">
+        <md-button ng-click="navBarToggle()" class="md-fab md-primary" ><md-icon class="material-icons">menu</md-icon></md-button>
+        <input type="search" class="adminSearch" placeholder="Search...">
+        <div class="adminCorner">
+            <div class="adminProfile">
+                <div class="profileImage">
+                    <img src="images/kylo.png" width="49" height="50" />
+                </div>
+                <h3>Kylo</h3>
+                Administrator
+            </div>
+
+            <a class="adminSettings"></a>
+        </div>
+
+    </div>
+    <!-- Content -->
+    <div class="sectionHeaderMain">
+        <h1>{{title}}</h1>
+    </div>
+    <div class="contentWrap">
+        <ui-view></ui-view>
+    </div>
+    <div class="loadOverlay" ng-show="isLoading">
+        <div class="loadOverlayImgHolder">
+            <md-progress-circular class="md-warn md-hue-3" md-diameter="70"></md-progress-circular>
+        </div>
+    </div>
+    <!-- End Content -->
+
+</div>

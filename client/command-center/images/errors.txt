@@ -1,0 +1,11 @@
+[2/19/2017, 1:35:33 PM] layer "+": Expected Either a default asset specification or a layer asset specification but "+" found.
+[2/19/2017, 1:35:33 PM] layer "+": Expected Either a default asset specification or a layer asset specification but "+" found.
+[2/19/2017, 1:35:33 PM] layer "+": Expected Either a default asset specification or a layer asset specification but "+" found.
+[2/19/2017, 1:35:33 PM] layer "+": Expected Either a default asset specification or a layer asset specification but "+" found.
+[2/19/2017, 1:35:33 PM] layer "+": Expected Either a default asset specification or a layer asset specification but "+" found.
+[2/19/2017, 1:35:33 PM] layer "+ copy": Expected Either a default asset specification or a layer asset specification but "+" found.
+[2/19/2017, 1:35:33 PM] layer "+ copy 2": Expected Either a default asset specification or a layer asset specification but "+" found.
+[2/19/2017, 1:35:33 PM] layer "+ copy 3": Expected Either a default asset specification or a layer asset specification but "+" found.
+[2/19/2017, 1:35:33 PM] layer "Google +": Expected end of input but "+" found.
+[2/19/2017, 1:35:33 PM] layer "+ copy 4": Expected Either a default asset specification or a layer asset specification but "+" found.
+[2/19/2017, 1:35:33 PM] layer "+ copy 5": Expected Either a default asset specification or a layer asset specification but "+" found.

@@ -1,0 +1,19 @@
+<md-content>
+    <div class="manageRow" layout="row" ng-repeat="event in events" layout-align="space-around center" flex>
+        <div class="manageRowName">
+            <div class="manageImage">
+                <img src="images/kylo.png" width="49" height="50" />
+            </div>
+            {{event.name}}
+        </div>
+        <div class="manageRowEmail">
+            {{event.date.start_date | date: "EEEE',' MMM dd yyyy"}}
+        </div>
+        <div class="manageRowOptions">
+            <md-button class="ghostButton" ui-sref="event.edit({id:event._id})">Edit</md-button>
+            <div class="trash" ng-click="delete(event._id, $index)">
+                <img src="images/delete.png" width="14" height="16"/>
+            </div>
+        </div>
+    </div>
+</md-content>

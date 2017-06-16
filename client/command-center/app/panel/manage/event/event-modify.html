@@ -1,0 +1,108 @@
+<md-content layout-column>
+    <div layout-gt-md="row" layout-padding flex>
+    <div layout="column" layout-padding flex="50">
+        <div layout="row" layout-align="start end">
+            <md-input-container>
+                <label>Event Name <span style="color:red">*</span></label>
+                <input type="text" ng-model="event.name"/>
+            </md-input-container>
+        </div>
+        <div layout="row" layout-align="start">
+            <div layout="column" layout-padding layout-align="start">
+                <div layout="row">
+                    Date/Time <span style="color:red">*</span>
+                </div>
+                <md-input-container>
+                    <label>Date</label>
+                    <md-datepicker ng-model="event.date.start_date"></md-datepicker>
+                </md-input-container>
+                <div layout="row" layout-align="space-between" flex>
+                    <md-input-container>
+                        <label>Start Time</label>
+                        <input type="text" ng-model="event.date.start_time"/>
+                    </md-input-container>
+                    <md-input-container>
+                        <label>End Time</label>
+                        <input type="text" ng-model="event.date.end_time"/>
+                    </md-input-container>
+                </div>
+            </div>
+        </div>
+
+        <div layout="column" flex>
+            <div layout="row" layout-align="start center">
+                Recur every
+                <input ng-model="event.recur.week" flex="20"/>
+                 week(s) on:
+            </div>
+
+            <div layout="row" layout-align="space-around">
+                <md-checkbox ng-model="event.recur.days_of_week.sunday">
+                    Su
+                </md-checkbox>
+                <md-checkbox ng-model="event.recur.days_of_week.monday">
+                    M
+                </md-checkbox>
+                <md-checkbox ng-model="event.recur.days_of_week.tuesday">
+                    Tu
+                </md-checkbox>
+                <md-checkbox ng-model="event.recur.days_of_week.wednesday">
+                    W
+                </md-checkbox>
+                <md-checkbox ng-model="event.recur.days_of_week.thursday">
+                    Th
+                </md-checkbox>
+                <md-checkbox ng-model="event.recur.days_of_week.friday">
+                    F
+                </md-checkbox>
+                <md-checkbox ng-model="event.recur.days_of_week.saturday">
+                    Sa
+                </md-checkbox>
+            </div>
+        </div>
+        <div layout="row" layout-align="start">
+            <md-input-container>
+                <label>Add Spaces</label>
+                <md-select ng-model="included_spaces">
+                    <md-option value="one">Space One</md-option>
+                    <md-option value="two">Space Two</md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <div layout="row" layout-align="start">
+            <md-input-container>
+                <label>Permission Slip Req.?</label>
+                <md-select ng-model="permission_slip_required">
+                    <md-option value="true">Yes</md-option>
+                    <md-option value="false">No</md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+    </div>
+    <md-divider></md-divider>
+    <div layout="column" layout-padding flex="50">
+        <div layout="row">
+            <md-button class="md-primary md-raised" flex="25">
+                <label for="file-input">Choose Image(s)</label>
+            </md-button>
+            <input id="file-input"
+                   type='file'
+                   ng-model="uploadedImages"
+                   parser="resizeImage"
+                   base-sixty-four-input
+                   maxsize="1000"
+                   multiple
+                   ng-show="false"
+            >
+        </div>
+    </div>
+    </div>
+    <div layout="row" layout-align="start" flex>
+        <div layout="row" layout-align="space-bettwen" flex="50">
+            <md-button class="blueButton" ng-click="create(event)" ng-show="!event._id">CREATE</md-button>
+            <md-button class="blueButton" ng-click="update(event)" ng-show="!!event._id">UPDATE</md-button>
+            <md-button class="ghostButton">CANCEL</md-button>
+        </div>
+    </div>
+</md-content>
+

@@ -1,0 +1,212 @@
+<md-content layout="column" >
+    <form name="userForm" layout-gt-md="row" layout-padding flex>
+        <div layout="column" layout-padding flex="50">
+            Login Info
+            <div layout="row" layout-align="space-between start">
+                <md-input-container flex="50">
+                    <label>Preferred Name</label>
+                    <input type="text" ng-model="user.preferred_name" required/>
+                </md-input-container>
+                <md-input-container flex="20">
+                    <label>Role</label>
+                    <md-select ng-model="user.role" required>
+                        <md-option value="user" >
+                            User
+                        </md-option>
+                        <md-option value="parent" >
+                            Parent
+                        </md-option>
+                        <md-option value="child" >
+                            Child
+                        </md-option>
+                        <md-option value="faculty">
+                            Faculty
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
+            </div>
+            Legal Name
+            <div layout="row" layout-align="space-between start">
+                <md-input-container flex="20">
+                    <label>Prefix</label>
+                    <md-select ng-model="user.title" >
+                        <md-option value="Mr." >
+                            Mr.
+                        </md-option>
+                        <md-option value="Mrs." >
+                            Mrs.
+                        </md-option>
+                        <md-option value="Ms." >
+                            Ms.
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <div layout="row" layout-align="space-between start">
+                <md-input-container flex="70">
+                    <label>First Name</label>
+                    <input type="text" ng-model="user.legal_name.first" name="first" required="true"/>
+                    <div ng-messages="first.$error">
+                        <div ng-message="required">This field is required!</div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex="20">
+                    <label>Middle Name</label>
+                    <input type="text" ng-model="user.legal_name.middle"/>
+                </md-input-container>
+            </div>
+            <div layout="row" layout-align="space-between start">
+                <md-input-container flex="70">
+                    <label>Last</label>
+                    <input type="text" ng-model="user.legal_name.last" required/>
+                    <div ng-messages="last.$error">
+                        <div ng-message="required">This field is required!</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <div layout="row" layout-align="space-between start">
+                <md-input-container flex="20" required name="gender">
+                    <label>Gender</label>
+                    <md-select ng-model="user.gender">
+                        <md-option value="Male" >
+                            Male
+                        </md-option>
+                        <md-option value="Female" >
+                            Female
+                        </md-option>
+                    </md-select>
+                    <div ng-messages="gender.$error">
+                        <div ng-message="required">This field is required!</div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex="40">
+                    <label>Birthday</label>
+                    <md-datepicker ng-model="user.birthday" name="birthday" required="true"></md-datepicker>
+                    <div ng-messages="birthday.$error">
+                        <div ng-message="valid">The entered value is not a date!</div>
+                        <div ng-message="required">This date is required!</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <div layout="row" layout-align="space-between start">
+                <md-autocomplete
+                        md-no-cache="true"
+                        md-selected-item="selectedItem"
+                        md-search-text-change="search(searchText)"
+                        md-search-text="searchText"
+                        md-selected-item-change="selectItem(item)"
+                        md-items="item in items"
+                        md-item-text="item.legal_name.first"
+                        md-min-length="0"
+                        placeholder="Spouse/Partner">
+                    <md-item-template>
+                        <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.legal_name.first}} {{item.legal_name.last}}</span>
+                    </md-item-template>
+                    <md-not-found>
+                        No users matching "{{searchText}}" were found.
+                    </md-not-found>
+                </md-autocomplete>
+            </div>
+            <div layout="row" ng-if="!!image" layout-align="end">
+                <img ng-src="{{image.full}}" class="avatar"/>
+                <md-button ng-click="createAvatar()" class="material-icons md-fab md-mini md-primary" style="right: 30px">edit</md-button>
+            </div>
+            <div layout="row" ng-if="!image" layout-align="end">
+                <img ng-src="http://www.franzkedesigner.com/img/kspaces/{{user._id}}/1.png?1" ng-show="!item.hasImage" class="avatar"/>
+                <img ng-src="images/spaces.png" width="200px" height="100%" ng-show="item.hasImage" class="avatar"/>
+                <md-button ng-click="createAvatar()" class="material-icons md-fab md-mini md-primary" style="right: 30px">edit</md-button>
+            </div>
+        </div>
+        <md-divider></md-divider>
+        <div layout="column" layout-padding flex="50">
+            Contact Info
+            <div layout="row" layout-align="space-between start">
+                <md-input-container flex="60">
+                    <label>Email</label>
+                    <input type="text" ng-model="user.email" name="email" type="email" required/>
+                    <div ng-messages="email.$error">
+                        <div ng-message="required">This field is required!</div>
+                        <div ng-message="valid">Must be in email format</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <div layout="row" layout-align="space-between start">
+                <md-input-container flex="40">
+                    <label>Primary Phone</label>
+                    <input type="text" ng-model="user.primary_phone" type="phone" required/>
+                </md-input-container>
+                <md-input-container flex="40">
+                    <label>Alt. Phone</label>
+                    <input type="text" ng-model="user.alt_phone"/>
+                </md-input-container>
+            </div>
+            <div layout="row">
+                <div layout="column">
+                    Address
+                    <md-input-container>
+                        <label>Line 1</label>
+                        <input type="text" ng-model="user.address.line_one" name="line_one" required/>
+                        <div ng-messages="line_one.$error">
+                            <div ng-message="required">This field is required!</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Line 2</label>
+                        <input type="text" ng-model="user.address.line_two"/>
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Line 3</label>
+                        <input type="text" ng-model="user.address.line_three"/>
+                    </md-input-container>
+                    <div layout="row" layout-align="space-between start">
+                        <md-input-container flex="40">
+                            <label>City</label>
+                            <input type="text" ng-model="user.address.city" name="city" required/>
+                            <div ng-messages="city.$error">
+                                <div ng-message="required">This field is required!</div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="25">
+                            <label>St</label>
+                            <input type="text" ng-model="user.address.state" name="state" required/>
+                            <div ng-messages="state.$error">
+                                <div ng-message="required">This field is required!</div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="25">
+                            <label>Zip</label>
+                            <input type="number" ng-model="user.address.zip" name="zip" required/>
+                            <div ng-messages="zip.$error">
+                                <div ng-message="required">This field is required!</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+            </div>
+            <div layout="row" layout-align="space-between start" >
+                <md-input-container flex="45">
+                    <label>Employer</label>
+                    <input type="text" ng-model="user.employer"/>
+                </md-input-container>
+                <md-input-container flex="45">
+                    <label>Occupation</label>
+                    <input type="text" ng-model="user.occupation"/>
+                </md-input-container>
+            </div>
+            <div layout="row" layout-align="space-between start">
+                <md-input-container class="md-block" md-no-float flex="90">
+                    <textarea autofocus placeholder="Notes (Press Enter for New Line)"></textarea>
+                </md-input-container>
+            </div>
+        </div>
+    </form>
+    <div layout="row" layout-align="start" flex>
+        <div layout="row" layout-align="space-bettwen" flex="50">
+            <md-button class="blueButton" ng-click="create(user)" ng-show="!user._id" ng-disabled="userForm.$invalid">CREATE</md-button>
+            <md-button class="blueButton" ng-click="update(user)" ng-show="!!user._id">UPDATE</md-button>
+            <md-button class="ghostButton">CANCEL</md-button>
+        </div>
+    </div>
+</md-content>
+
