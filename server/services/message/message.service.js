@@ -1,7 +1,10 @@
 
 let mongo = require('mongodb');
+let logging = require('../logging/logging.service');
 
 export function sendEmail(message, callback){
+    logging.INFO("Class : Message.Service , Method : sendEmail , AdditionData : { to : " + message.to + "}");
+
     var nodemailer = require('nodemailer');
     let smtpConfig = {
         host: 'seagull.arvixe.com',
@@ -19,14 +22,22 @@ export function sendEmail(message, callback){
         subject: message.subject, // Subject line
         html: message.body// html body
     };
-    let transporter = nodemailer.createTransport(smtpConfig);
+  let transporter = nodemailer.createTransport(smtpConfig);
 
-// send mail with defined transport object
-    transporter.sendMail(mailOptions, function(error, info){
+    try{
+      logging.INFO("Class : Message.Service , Method : sendEmail , Message : sending email");
+      transporter.sendMail(mailOptions, function(error, info){
         if (error) {
-            console.log(error);
-            callback(error);
+          console.log(error);
+          callback(error);
         }
         callback(null, info);
-    });
+      });
+    }
+    catch(exception)
+    {
+      logging.ERROR(exception, "Class : Message.Service , Method : sendEmail , Message : failed to send email");
+      callback(exception, null);
+    }
+
 };

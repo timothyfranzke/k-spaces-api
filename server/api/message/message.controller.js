@@ -1,22 +1,31 @@
 let mongo = require('mongodb');
 let emailer = require('../../services/message/message.service');
 let db = require('../../services/db/db.service').getDb();
-
+let logging     = require('../../services/logging/logging.service');
+let className   = "message.controller";
 export function list(req,res){
+    let methondName = "list";
     let db = require('../../services/db/db.service').getDb();
     let entity_id = req.user.application_data.entity_id;
 
-    db.collection('message').find({"active":true, "entity_id": entity_id}).toArray(function(err, result){
+    try {
+      db.collection('message').find({"active":true, "entity_id": entity_id}).toArray(function(err, result){
         if (err) return console.log(err);
 
         console.log(result);
         result.forEach((item) => {
-            console.log(item.from_id);
-            item.from_id === req.user.id ? item.isSent = true : item.isSent = false;
+          console.log(item.from_id);
+          item.from_id === req.user.id ? item.isSent = true : item.isSent = false;
         });
 
         res.json(result);
-    })
+      })
+    }
+    catch(exception){
+      logging.ERROR(className, methondName, exception, "EntityID : " + entity_id);
+      res.status(400);
+    }
+
 };
 
 export function get(req,res){

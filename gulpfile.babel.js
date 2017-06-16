@@ -125,6 +125,9 @@ gulp.task('server', function(){
     gulp.src([serverDir + '/**/*.js'])
         .pipe(plugins.babel())
         .pipe(gulp.dest(serverDest));
+  gulp.src([serverDir + '/services/**/*.js'])
+    .pipe(plugins.babel())
+    .pipe(gulp.dest(serverDest));
     gulp.src(['index.js'])
         .pipe(gulp.dest(dest))
 });
