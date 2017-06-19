@@ -4,7 +4,7 @@ let _db;
 let localConnection = 'mongodb://localhost/fuse-spaces';
 let prodConnection = 'mongodb://spaces-app:TimDaveAndSteve@ds145370.mlab.com:45370/spaces';
 
-let connection = localConnection;
+let connection = prodConnection;
 
 module.exports = {
     connectToServer: function( callback ) {
