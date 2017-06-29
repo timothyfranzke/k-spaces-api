@@ -1,6 +1,10 @@
-
+let logging     = require('../logging/logging.service');
+let className   = "search.service";
 
 export function searchByUserName(term, callback){
+    let methodNAme = "searchByUserName";
+    logging.INFO(className, methodNAme, "searching with " + term);
+
     let db = require('../../services/db/db.service').getDb();
     var expression = new RegExp('^' + term);
     console.log(expression);
@@ -15,8 +19,12 @@ export function searchByUserName(term, callback){
 
         )
         .toArray(function(err, result){
-            if (err) return console.log(err);
-            console.log(result);
+            if (err)
+            {
+              logging.ERROR(err, className, methodNAme, "error with term " + term);
+              callback(err);
+            }
+            logging.INFO(className, methodNAme, "search result " + result);
             callback(result);
         });
 };

@@ -1,8 +1,8 @@
 'use strict';
 
 import {Router} from 'express';
-import * as controller from './user.controller';
-import * as auth from '../../services/auth/auth.service';
+import * as controller from './tuition_rate.controller';
+import * as auth from '../../../services/auth/auth.service';
 
 let router = new Router();
 

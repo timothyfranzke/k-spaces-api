@@ -15,5 +15,11 @@ export function period(req,res){
         if (err) return console.log(err);
 
         res.json(result);
-    })
+    });
+};
+
+export function createTuitionRate(res, req){
+  let db = require('../../services/db/db.service').getDb();
+
+  db.collection('tuition_rates')
 };

@@ -43,6 +43,7 @@ app.use(allowCrossDomain);
 app.use(bodyparser.json({limit: '50mb'}));
 app.use("/", express.static(__dirname + '/public'));
 app.use("/login", express.static(__dirname + '/public/login'));
+app.use("/api/search", require('./server/api/search'));
 app.use("/api/user", require('./server/api/user-detail'));
 app.use("/api/user-group", require('./server/api/user-group'));
 app.use("/api/event", require('./server/api/event'));
@@ -51,6 +52,7 @@ app.use("/api/location", require('./server/api/location'));
 app.use("/api/message", require('./server/api/message'));
 app.use("/api/profile", require('./server/api/profile'));
 app.use("/api/payment", require('./server/api/payment'));
+app.use("/api/financial/tuition_rate", require('./server/api/financial/tuition_rate'));
 
 app.use("/command-center", express.static(__dirname + '/public/command-center'));
 app.use("/auth", express.static(__dirname + "/public/auth"));
