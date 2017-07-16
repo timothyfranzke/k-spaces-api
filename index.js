@@ -52,6 +52,7 @@ app.use("/api/location", require('./server/api/location'));
 app.use("/api/message", require('./server/api/message'));
 app.use("/api/profile", require('./server/api/profile'));
 app.use("/api/payment", require('./server/api/payment'));
+app.use("/api/financial/pay-period", require('./server/api/financial/payment_period'));
 app.use("/api/financial/tuition_rate", require('./server/api/financial/tuition_rate'));
 
 app.use("/command-center", express.static(__dirname + '/public/command-center'));
@@ -60,7 +61,7 @@ app.use("/auth", express.static(__dirname + "/public/auth"));
 //app.use("/api/message", require('./server/api/message'));
 
 _db.connectToServer(function(){
-    app.listen(process.env.PORT || 3002, function(){
+    app.listen(process.env.PORT || 3008, function(){
         console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
     });
 });

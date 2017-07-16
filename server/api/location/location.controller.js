@@ -8,7 +8,10 @@ export function list(req,res){
     db.collection('location').find({"active":true, "entity_id":entity_id}).toArray(function(err, result){
         if (err) return console.log(err);
 
-        res.json(result);
+      let locationResult = {
+        data : result
+      };
+        res.json(locationResult);
     })
 };
 
