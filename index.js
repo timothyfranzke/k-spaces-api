@@ -68,7 +68,10 @@ _db.connectToServer(function(){
 
 app.get('/api/generate-password', function(req, res){
    console.log(passwordGenerator.generatePassword());
-   res.send(passwordGenerator.generatePassword());
+   let response = {
+     "pw":passwordGenerator.generatePassword()
+   };
+   res.send(response);
 });
 
 app.post('/api/login', function(req, res){
