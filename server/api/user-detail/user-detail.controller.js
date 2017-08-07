@@ -39,13 +39,21 @@ export function create(req,res){
     db.collection('userDetail').insert(req.body, function(err, entityResult){
         if (err) return console.log(err);
 
-        let message = {
+        if(!!req.body.email)
+        {
+          let message = {
             to: req.body.email,
             subject: "K-Spaces Account Created",
             body:"<p>An account has been created for you using this email</p><p>Please log in at k-spaces.herokuapp.com and enter the temporary password <b>"+ req.body.temp_password +"</b></p>"
-        };
+          };
 
-        emailer.sendEmail(message, res.json(entityResult));
+          emailer.sendEmail(message, function(err, mailResponse){
+            res.json(entityResult)
+          });
+        }
+        else{
+          res.json(entityResult);
+        }
     })
 };
 
