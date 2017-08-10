@@ -7,6 +7,6 @@ import * as auth from '../../services/auth/auth.service';
 let router = new Router();
 
 router.get('/', auth.isAuthenticated(), controller.get);
-router.put('/', auth.isAuthenticated(), controller.update);
+router.put('/:id', auth.isAuthenticated(), controller.update);
 
 module.exports = router;
