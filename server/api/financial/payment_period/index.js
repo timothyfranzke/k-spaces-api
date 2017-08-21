@@ -9,7 +9,7 @@ let router = new Router();
 router.get('/', auth.hasRole('admin'), controller.list);
 router.delete('/:id', auth.hasRole('admin'), controller.remove);
 router.get('/:id', auth.isAuthenticated(), controller.get);
-router.post('/', auth.isAuthenticated(), controller.create);
+router.post('/', auth.isAuthenticated(), controller.createNew);
 router.put('/:id', auth.isAuthenticated(), controller.update);
 
 module.exports = router;
