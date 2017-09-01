@@ -67,7 +67,7 @@ export function list(req,res){
 
   let db = require('../../../services/db/db.service').getDb();
   try{
-    db.collection('payment').find({"entity_id":entity_id}).toArray(function(err, result){
+    db.collection('pay_period').find({"entity_id":entity_id}).toArray(function(err, result){
       if (err){
         logging.ERROR(err, className, methodName, "database insert failed");
 
@@ -150,7 +150,8 @@ export function get(req,res){
     let id = mongo.ObjectID(req.params.id);
     let entity_id = req.user.application_data.entity_id;
 
-    db.collection('tuition_rate').find( {"_id" : id, "entity_id":entity_id, "active": true}).toArray(function(err,result){
+    logging.INFO(className, methodName, "Searching for payments in period " + id);
+    db.collection('payment').find( {"period_id" : id}).toArray(function(err,result){
       if (err) {
         logging.ERROR(err, className, methodName, "database insert failed");
 
@@ -212,8 +213,10 @@ export function createNew(req,res){
             });
             tierResult.forEach(function(tier){
               logging.INFO(className, methodName, "creating payment records for " + tier._id);
-              if(tier.students > 0)
+
+              if(tier.students != undefined && tier.students.length > 0)
               {
+                logging.INFO(className, methodName, "total students " + tier.students.length);
                 tier.students.forEach(function(studentId){
                   logging.INFO(className, methodName, "creating payment record for student " + studentId)
                   let paymentRecord = {
@@ -253,6 +256,9 @@ export function createNew(req,res){
                     }
                   });
                 })
+              }
+              else{
+                res.sendStatus(200);
               }
             })
           }
