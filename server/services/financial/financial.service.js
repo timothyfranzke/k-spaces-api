@@ -15,7 +15,7 @@ export function createPayPeriodRecord(entity_id, callback){
   try{
 
     db.collection('pay_period').insert(payPeriod, function(err, pay_result){
-      callback(err, pay_result.insertedIds[0]);
+      callback(err, pay_result.insertedIds[0].toString());
     });
   }
   catch(exception){
