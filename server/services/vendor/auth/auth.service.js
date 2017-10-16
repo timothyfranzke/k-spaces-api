@@ -1,13 +1,15 @@
 let expressJwt  = require('express-jwt');
 let compose     = require('composable-middleware');
-let logging     = require('../logging/logging.service');
+let logging     = require('../../logging/logging.service');
 let className   = "auth.service";
 
 export function isAuthenticated(){
     let methodName   = "isAuthenticated";
     let validateJwt   = expressJwt({
-        secret: 'tasmanianDevil'
+        secret: 'itshardtostopatrain'
     });
+    let db = require('../../../services/db/db.service').getDb();
+
     return compose()
     // Validate jwt
         .use(function(req, res, next) {
@@ -25,6 +27,7 @@ export function isAuthenticated(){
               logging.INFO(className, methodName, "Token : " + req.cookies.token);
               req.headers.authorization = `Bearer ${req.cookies.token}`;
             }
+
             validateJwt(req, res, next);
         });
 };
@@ -42,7 +45,7 @@ export function hasRole (roleRequired) {
       .use(function meetsRequirements(req, res, next) {
         let isAuthenticated = false;
         req.user.applications.forEach(function(userApplication){
-          if(userApplication.application_id === '59e178a8734d1d1c37fc3c52'){
+          if(userApplication.application_id === '59e0c23a734d1d1c37fbb760'){
             userApplication.roles.forEach(function(userRole){
               if(!isAuthenticated && roles.indexOf(userRole) >= roles.indexOf(roleRequired))
               {

@@ -1,5 +1,5 @@
-import * as search from '../../services/search/search.service'
-let logging     = require('../../services/logging/logging.service');
+import * as search from '../../../services/search/search.service'
+let logging     = require('../../../services/logging/logging.service');
 let className   = "search.controller";
 
 export function searching(req, res){

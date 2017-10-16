@@ -67,7 +67,7 @@ export function list(req,res){
 
   let db = require('../../../services/db/db.service').getDb();
   try{
-    db.collection('pay_period').find({"entity_id":entity_id}).toArray(function(err, result){
+    db.collection('pay_period').find({"entity_id":entity_id}).sort({start_date:-1}).toArray(function(err, result){
       if (err){
         logging.ERROR(err, className, methodName, "database insert failed");
 
@@ -148,6 +148,8 @@ export function get(req,res){
   try {
     let db = require('../../../services/db/db.service').getDb();
     let id = mongo.ObjectID(req.params.id);
+    console.log(id);
+    let string_id = req.params.id;
     let entity_id = req.user.application_data.entity_id;
 
     logging.INFO(className, methodName, "Searching for payments in period " + id);
@@ -157,8 +159,11 @@ export function get(req,res){
 
         res.status(400);
       }
+      let payPeriodResult ={
+        data: result
+      };
 
-      res.json(result);
+      res.json(payPeriodResult);
     })
   }
   catch (exception)

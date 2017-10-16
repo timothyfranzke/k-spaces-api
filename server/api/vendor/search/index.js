@@ -2,7 +2,7 @@
 
 import {Router} from 'express';
 import * as controller from './search.controller';
-import * as auth from '../../services/auth/auth.service';
+import * as auth from '../../../services/vendor/auth/auth.service';
 
 let router = new Router();
 
