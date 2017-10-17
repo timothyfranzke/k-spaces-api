@@ -45,6 +45,7 @@ app.use("/", express.static(__dirname + '/public'));
 app.use("/login", express.static(__dirname + '/public/login'));
 app.use("/api/search", require('./server/api/search'));
 app.use("/api/user", require('./server/api/user-detail'));
+app.use("/api/entity", require('./server/api/entity'));
 app.use("/api/user-group", require('./server/api/user-group'));
 app.use("/api/event", require('./server/api/event'));
 app.use("/api/spaces", require('./server/api/space'));
@@ -60,6 +61,7 @@ app.use("/api/vendor/user", require('./server/api/vendor/user-detail'));
 app.use("/api/vendor/event", require('./server/api/vendor/event'));
 app.use("/api/vendor/spaces", require('./server/api/vendor/spaces'));
 app.use("/api/vendor/profile", require('./server/api/vendor/profile'));
+app.use("/api/vendor/entities", require('./server/api/vendor/entities'));
 
 app.use("/command-center", express.static(__dirname + '/public/command-center'));
 app.use("/auth", express.static(__dirname + "/public/auth"));
