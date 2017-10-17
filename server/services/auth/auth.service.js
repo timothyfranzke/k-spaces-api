@@ -12,8 +12,8 @@ export function isAuthenticated(){
     // Validate jwt
         .use(function(req, res, next) {
             var applicationfound = false;
-            if(req.params.applicationId === undefined){
-              res.sendStatus(403);
+            if(req.query.ApplicationID === undefined){
+              return res.sendStatus(403);
             }
 
             logging.INFO(className, methodName, "ApplicationID: " + req.query.ApplicationID);
@@ -26,11 +26,11 @@ export function isAuthenticated(){
                 });
                 logging.INFO(className, methodName, secret);
                 if(validateJwt === undefined){
-                  res.sendStatus(403);
+                  return res.sendStatus(403);
                 }
 
                 if(req.headers.authorization === undefined){
-                  res.sendStatus(403);
+                  return res.sendStatus(403);
                 }
                 // allow access_token to be passed through query parameter as well
                 if(req.query && req.query.hasOwnProperty('access_token')) {
@@ -61,19 +61,27 @@ export function hasRole (roleRequired) {
       .use(function meetsRequirements(req, res, next) {
         let isAuthenticated = false;
         req.user.applications.forEach(function(userApplication){
-          if(userApplication.application_id === '59e178a8734d1d1c37fc3c52'){
+          logging.INFO(className, methodName, "looping user.applications" + userApplication.application_id);
+          if(userApplication.application_id === req.query.ApplicationID){
+
             userApplication.roles.forEach(function(userRole){
+              logging.INFO(className, methodName, "looping userApplication.roles" + userRole);
               if(!isAuthenticated && roles.indexOf(userRole) >= roles.indexOf(roleRequired))
               {
                 isAuthenticated = true;
+                return next();
+
               }
             });
-            if(isAuthenticated) {
-              return next();
-            } else {
-              return res.status(403).send('Forbidden');
-            }
           }
         });
+
+        logging.INFO(className,methodName,"isAuthenticated : " + isAuthenticated);
+        if(!isAuthenticated)
+        {
+          logging(className, methodName, "sending status 403");
+          res.sendStatus(403);
+        }
+
     });
 };
