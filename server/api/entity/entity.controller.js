@@ -44,17 +44,22 @@ export function list(req,res){
           res.status(400)
         }
         else{
-          db.collection('userDetail').find({"entity_id": {$in: entityResult.associated_entities}}).toArray(function(err,userresult){
-            if (err) return console.log(err);
+          db.collection('location').find({"entity_id": {$in: entityResult.associated_entities}}).toArray(function(err,locationsresult){
+            db.collection('userDetail').find({"entity_id": {$in: entityResult.associated_entities}}).toArray(function(err,userresult){
+              if (err) return console.log(err);
 
-            let result = {
-              data : {
-                entities:entitiesResult,
-                users:userresult
-              }
-            };
-            res.json(result);
+              let result = {
+                data : {
+                  entity: entityResult,
+                  locations: locationsresult,
+                  associated_entities:entitiesResult,
+                  users:userresult
+                }
+              };
+              res.json(result);
+            });
           });
+
         }
       })
 
