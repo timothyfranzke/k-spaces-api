@@ -7,11 +7,14 @@ export function get(req,res){
 
     let entity_id = req.user.application_data.entity_id;
 
-    db.collection('userDetail').findOne( {"auth_id" : id, "entity_id":entity_id}, function(err,result){
+    db.collection('userDetail').findOne( {"auth_id" : id}, function(err,result){
         if (err) return console.log(err);
 
         let profileResult = {
-            data : result
+            data : {
+              profile: result,
+              accessible_applications : req.user.accessible_applications
+            }
         };
 
         res.json(profileResult);
