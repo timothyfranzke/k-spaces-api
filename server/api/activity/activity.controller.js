@@ -12,7 +12,7 @@
 // export function getSpaceActivity(req, res){
 //   var space_id = mongo.ObjectID(req.params.id);
 //   var page = req.params.page;
-//   var entity_id = req.user.application_data.entity_id;
+//   var entity_id = req.user.entity_id;
 //
 //   db.collection('activity').find({"entity_id":entity_id, "space_id":space_id}).skip(page).limit(20).toArray(function(err,result){
 //     if (err) return console.log(err);
@@ -25,7 +25,7 @@
 //   var id = mongo.ObjectID(req.params.id);
 //   var student_id = mongo.ObjectID(req.params.student_id);
 //   var page = req.params.page;
-//   var vendor_id = req.user.application_data.entity_id;
+//   var vendor_id = req.user.entity_id;
 //
 //   db.collection('activity').find({"vendor_id":vendor_id}).skip(page).limit(20).toArray(function(err,result){
 //     if (err) return console.log(err);
@@ -48,7 +48,7 @@
 // export function remove(req, res){
 //   let db = require('../../services/db/db.service').getDb();
 //   var id = mongo.ObjectID(req.params.id);
-//   var entity_id = req.user.application_data.entity_id;
+//   var entity_id = req.user.entity_id;
 //
 //   db.collection('activity').findOneAndUpdate({"_id":id}, {$set : {"active":false}}, function(err, result){
 //     if (err) return console.log(err);

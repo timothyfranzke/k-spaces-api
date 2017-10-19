@@ -2,7 +2,7 @@ let mongo = require('mongodb');
 
 
 export function list(req,res){
-    var entity_id = req.user.application_data.entity_id;
+    var entity_id = req.user.entity_id;
     console.log(entity_id);
 
     let db = require('../../services/db/db.service').getDb();
@@ -20,7 +20,7 @@ export function list(req,res){
 export function get(req,res){
     let db = require('../../services/db/db.service').getDb();
     var id = mongo.ObjectID(req.params.id);
-    var entity_id = req.user.application_data.entity_id;
+    var entity_id = req.user.entity_id;
 
     db.collection('userGroup').find( {"_id" : id, "entity_id":entity_id}).toArray(function(err,result){
         if (err) return console.log(err);
@@ -34,7 +34,7 @@ export function create(req,res){
 
     req.body.active = true;
     req.body.date_created = Date.now();
-    req.body.entity_id = req.user.application_data.entity_id;
+    req.body.entity_id = req.user.entity_id;
 
     db.collection('userGroup').insert(req.body, function(err, entityResult){
         if (err) return console.log(err);
@@ -46,7 +46,7 @@ export function create(req,res){
 
 export function update(req, res){
     let db = require('../../services/db/db.service').getDb();
-    var entity_id = req.user.application_data.entity_id;
+    var entity_id = req.user.entity_id;
     var id = mongo.ObjectID(req.params.id);
     delete req.body._id;
 
@@ -60,7 +60,7 @@ export function update(req, res){
 export function remove(req, res){
     let db = require('../../services/db/db.service').getDb();
     var id = mongo.ObjectID(req.params.id);
-    var entity_id = req.user.application_data.entity_id;
+    var entity_id = req.user.entity_id;
 
     db.collection('userGroup').findOneAndUpdate({"_id":id, "entity_id":entity_id}, {$set : {"active":false}}, function(err, result){
         if (err) return console.log(err);

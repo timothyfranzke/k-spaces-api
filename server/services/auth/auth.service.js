@@ -31,13 +31,13 @@ export function isAuthenticated(){
 
         return res.sendStatus(403);
       }
-      if(claims.application == undefined || claims.application.application){
+      if(claims.application_id == undefined || claims.application_id == null ){
         logging.INFO(className, isAuthenticated.name, claims);
         logging.INFO(className, isAuthenticated.name, "claims.application isn't valid");
         return res.json(claims);
       }
 
-      let applicationId = claims.application.application_id;
+      let applicationId = claims.application_id;
       logging.INFO(className, methodName, "ApplicationID: " + applicationId);
       config.secrets.forEach(function(secret){
 
@@ -69,7 +69,7 @@ export function hasRole (roleRequired) {
     .use(isAuthenticated())
     .use(function meetsRequirements(req, res, next) {
       let isAuthenticated = false;
-      let userApplication = req.user.application;
+      let userApplication = req.user;
       logging.INFO(className, methodName, "looping user.applications" + userApplication.application_id);
       userApplication.roles.forEach(function(userRole){
         logging.INFO(className, methodName, "looping userApplication.roles " + userRole);

@@ -10,7 +10,7 @@ export function create(req,res){
   let db = require('../../../services/db/db.service').getDb();
   req.body.active = true;
   req.body.date_created = Date.now();
-  req.body.entity_id = req.user.application_data.entity_id;
+  req.body.entity_id = req.user.entity_id;
   let entity_id = req.body.entity_id;
 
   try{
@@ -62,7 +62,7 @@ export function list(req,res){
   let methodName = "list";
   logging.INFO(className, methodName, "entering method");
 
-  let entity_id = req.user.application_data.entity_id;
+  let entity_id = req.user.entity_id;
   logging.INFO(className, methodName, "EntityID: " + entity_id);
 
   let db = require('../../../services/db/db.service').getDb();
@@ -93,7 +93,7 @@ export function update(req, res){
 
   try{
     let db = require('../../../services/db/db.service').getDb();
-    let entity_id = req.user.application_data.entity_id;
+    let entity_id = req.user.entity_id;
     let id = mongo.ObjectID(req.params.id);
 
     delete req.body._id;
@@ -122,7 +122,7 @@ export function remove(req, res){
   try {
     let db = require('../../../services/db/db.service').getDb();
     let id = mongo.ObjectID(req.params.id);
-    let entity_id = req.user.application_data.entity_id;
+    let entity_id = req.user.entity_id;
 
     db.collection('tuition_rate').findOneAndUpdate({"_id":id, "entity_id":entity_id}, {$set : {"active":false}}, function(err, result){
       if (err) {
@@ -150,7 +150,7 @@ export function get(req,res){
     let id = mongo.ObjectID(req.params.id);
     console.log(id);
     let string_id = req.params.id;
-    let entity_id = req.user.application_data.entity_id;
+    let entity_id = req.user.entity_id;
 
     logging.INFO(className, methodName, "Searching for payments in period " + id);
     db.collection('payment').find( {"period_id" : id}).toArray(function(err,result){
@@ -186,7 +186,7 @@ export function createNew(req,res){
   let db = require('../../../services/db/db.service').getDb();
   req.body.active = true;
   req.body.date_created = Date.now();
-  req.body.entity_id = req.user.application_data.entity_id;
+  req.body.entity_id = req.user.entity_id;
   let entity_id = req.body.entity_id;
 
   try{

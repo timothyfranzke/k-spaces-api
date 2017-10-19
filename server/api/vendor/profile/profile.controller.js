@@ -5,7 +5,7 @@ export function get(req,res){
     let db = require('../../../services/db/db.service').getDb();
     let id = req.user.id;
 
-    let entity_id = req.user.application_data.entity_id;
+    let entity_id = req.user.entity_id;
 
     db.collection('userDetail').findOne( {"auth_id" : id, "entity_id":entity_id}, function(err,result){
         if (err) return console.log(err);
@@ -20,7 +20,7 @@ export function get(req,res){
 
 export function update(req, res){
     let db = require('../../../services/db/db.service').getDb();
-    let entity_id = req.user.application_data.entity_id;
+    let entity_id = req.user.entity_id;
     let auth_id = req.user.id;
 
 

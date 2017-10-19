@@ -3,7 +3,7 @@ let mongo = require('mongodb');
 //location
 export function list(req,res){
     let db = require('../../services/db/db.service').getDb();
-    let entity_id = req.user.application_data.entity_id;
+    let entity_id = req.user.entity_id;
 
     db.collection('payment').find({"entity_id":entity_id}).toArray(function(err, result){
         if (err) return console.log(err);
@@ -15,7 +15,7 @@ export function list(req,res){
 export function get(req,res){
     let db = require('../../services/db/db.service').getDb();
     let id = mongo.ObjectID(req.params.id);
-    var entity_id = req.user.application_data.entity_id;
+    var entity_id = req.user.entity_id;
 
     db.collection('payment').find( {"_id" : id, "entity_id":entity_id }).toArray(function(err,result){
         if (err) return console.log(err);
@@ -28,7 +28,7 @@ export function create(req,res){
     let db = require('../../services/db/db.service').getDb();
     req.body.active = true;
     req.body.date_created = Date.now();
-    req.body.entity_id = req.user.application_data.entity_id;
+    req.body.entity_id = req.user.entity_id;
 
     db.collection('payment').insert(req.body, function(err, entityResult){
         if (err) return console.log(err);
@@ -41,7 +41,7 @@ export function update(req, res){
     let db = require('../../services/db/db.service').getDb();
     var id = mongo.ObjectID(req.params.id);
     delete req.body._id;
-    var entity_id = req.user.application_data.entity_id;
+    var entity_id = req.user.entity_id;
 
     db.collection('payment').findOneAndUpdate({"_id":id, "entity_id":entity_id}, {$set : req.body}, function(err, result){
         if (err) return console.log(err);
@@ -53,7 +53,7 @@ export function update(req, res){
 export function remove(req, res){
     let db = require('../../services/db/db.service').getDb();
     var id = mongo.ObjectID(req.params.id);
-    var entity_id = req.user.application_data.entity_id;
+    var entity_id = req.user.entity_id;
 
     db.collection('payment').findOneAndUpdate({"_id":id, "entity_id":entity_id}, {$set : {"active":false}}, function(err, result){
         if (err) return console.log(err);

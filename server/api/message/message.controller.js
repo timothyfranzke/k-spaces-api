@@ -6,7 +6,7 @@ let className   = "message.controller";
 export function list(req,res){
     let methondName = "list";
     let db = require('../../services/db/db.service').getDb();
-    let entity_id = req.user.application_data.entity_id;
+    let entity_id = req.user.entity_id;
 
     try {
       db.collection('message').find({"active":true, "entity_id": entity_id}).toArray(function(err, result){
@@ -55,7 +55,7 @@ export function send(req,res){
     message.type = req.body.type;
     message.hasRead = false;
     message.parent_id = null;
-    message.entity_id = req.user.application_data.entity_id;
+    message.entity_id = req.user.entity_id;
 
     db.collection('message').insert(message, function(err, messageResult){
         if (err) return console.log(err);
@@ -82,7 +82,7 @@ export function send(req,res){
 export function remove(req, res){
     let db = require('../../services/db/db.service').getDb();
     let id = mongo.ObjectID(req.params.id);
-    let entity_id = req.user.application_data.entity_id;
+    let entity_id = req.user.entity_id;
 
     db.collection('message').findOneAndUpdate({"_id":id, "entity_id":entity_id }, {$set : {"active":false}}, function(err, result){
         if (err) return console.log(err);
