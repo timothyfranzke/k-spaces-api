@@ -73,7 +73,6 @@ export function hasRole (roleRequired) {
       logging.INFO(className, methodName, "looping user.applications" + userApplication.application_id);
       userApplication.roles.forEach(function(userRole){
         logging.INFO(className, methodName, "looping userApplication.roles " + userRole);
-
         if(!isAuthenticated && roles.indexOf(userRole) >= roles.indexOf(roleRequired))
         {
           isAuthenticated = true;

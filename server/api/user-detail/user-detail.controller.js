@@ -4,6 +4,7 @@ let className = 'user-detail.controller';
 
 export function list(req,res){
   let entity_id = mongo.ObjectID(req.user.entity_id);
+  let id = req.user.id
   let db = require('../../services/db/db.service').getDb();
 
   logging.INFO(className, list.name, "entity_id : " + entity_id);
@@ -14,6 +15,56 @@ export function list(req,res){
       logging.INFO(className, list.name, entityResult);
       if(entityResult.type === 'school'){
         logging.INFO(className, list.name, "entity type is school");
+
+        if(req.user.roles[0] === 'user'){
+          logging.INFO(className, list.name, "user is type user");
+          db.collection('userDetail').find({"active":true, "entity_id":entity_id, "parents" :{$in: studentIds}}).toArray(function(err, result){
+            if (err) return console.log(err);
+
+            let userDetailResult = {
+              "data" : result
+            };
+            res.json(userDetailResult);
+          })
+        }
+
+        if(req.user.roles[0] === 'faculty'){
+          logging.INFO(className, list.name, "user is type faculty");
+          db.collection('spaces').find({"entity_id":entity_id}).toArray(function(err, result){
+
+            logging.INFO(className, list.name, "space search for faculty " + id);
+            console.log(result);
+            if(result == null){
+              logging.INFO(className, list.name, "no spaces listed for faculty user" + id);
+              return res.sendStatus(422);
+            }
+            let studentIDStrings = [];
+            result.forEach(function(space){
+              if(space.faculty.contains(id)) {
+                logging.INFO(className, list.name, "searching faculty " + id + " searching space " + space._id);
+                if(space.students !== undefined){
+                  studentIDStrings = space.students;
+                }
+
+              }
+              })
+            });
+            let studentIds = [];
+            studentIDStrings.forEach(function(student){
+              studentIds.push(mongo.ObjectID(student));
+            });
+            db.collection('userDetail').find({"active":true, "entity_id":entity_id, "_id" :{$in: studentIds}}).toArray(function(err, result){
+              if (err) return console.log(err);
+
+              let userDetailResult = {
+                "data" : result
+              };
+              res.json(userDetailResult);
+            });
+        }
+
+
+        logging.INFO(className, list.name, "user is admin");
         db.collection('userDetail').find({"active":true, "entity_id":entity_id.str}).toArray(function(err, result){
           if (err) return console.log(err);
 

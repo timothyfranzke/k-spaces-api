@@ -3,7 +3,7 @@ let mongo = require('mongodb');
 //event
 export function list(req,res){
     let db = require('../../services/db/db.service').getDb();
-    var entity_id = req.params.entity_id;
+    let entity_id = req.params.entity_id;
 
     db.collection('event').find({"active":true, "entity_id":entity_id}).toArray(function(err, result){
         if (err) return console.log(err);

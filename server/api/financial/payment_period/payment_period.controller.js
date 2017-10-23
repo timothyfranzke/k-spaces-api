@@ -147,10 +147,7 @@ export function get(req,res){
 
   try {
     let db = require('../../../services/db/db.service').getDb();
-    let id = mongo.ObjectID(req.params.id);
-    console.log(id);
-    let string_id = req.params.id;
-    let entity_id = req.user.entity_id;
+    let id = req.params.id;
 
     logging.INFO(className, methodName, "Searching for payments in period " + id);
     db.collection('payment').find( {"period_id" : id}).toArray(function(err,result){
