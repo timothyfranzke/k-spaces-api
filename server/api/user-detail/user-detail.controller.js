@@ -51,7 +51,6 @@ export function list(req,res){
                   if(space.students !== undefined){
                     studentIDStrings = space.students;
                   }
-
                 }
               });
               let studentIds = studentIDStrings.map(function(studentID){return ObjectId(studentID)});
