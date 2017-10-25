@@ -1,10 +1,13 @@
 let mongo = require('mongodb');
 let logging = require('../../services/logging/logging.service');
+var ObjectId = mongo.ObjectId;
+
 let className = 'user-detail.controller';
 
 export function list(req,res){
+  //let logger = logging.Logger(true, this);
   let entity_id = mongo.ObjectID(req.user.entity_id);
-  let id = req.user.id
+  let id = req.user.id;
   let db = require('../../services/db/db.service').getDb();
 
   logging.INFO(className, list.name, "entity_id : " + entity_id);
@@ -12,12 +15,11 @@ export function list(req,res){
     .then(function(entityResult)
     {
       logging.INFO(className, list.name, "found entity");
-      logging.INFO(className, list.name, entityResult);
+      logging.INFO(className, list.name, JSON.stringify(entityResult));
       if(entityResult.type === 'school'){
-        logging.INFO(className, list.name, "entity type is school");
-
+        //logger.info("entity type is school");
         if(req.user.roles[0] === 'user'){
-          logging.INFO(className, list.name, "user is type user");
+          //logger.info("user is a user");
           db.collection('userDetail').find({"active":true, "entity_id":entity_id, "parents" :{$in: studentIds}}).toArray(function(err, result){
             if (err) return console.log(err);
 
@@ -29,51 +31,67 @@ export function list(req,res){
         }
 
         if(req.user.roles[0] === 'faculty'){
-          logging.INFO(className, list.name, "user is type faculty");
-          db.collection('spaces').find({"entity_id":entity_id}).toArray(function(err, result){
+          let query = {"entity_id":entity_id};
+          logging.INFO(className, list.name, "searching spaces with entity id " + entity_id + "; query : " + JSON.stringify(query));
 
-            logging.INFO(className, list.name, "space search for faculty " + id);
-            console.log(result);
+          db.collection('spaces').find().toArray(function(err, result){
+
+            logging.INFO(className, list.name, "space search for faculty " + id + " result : " + JSON.stringify(result));
+            //console.log(result);
             if(result == null){
               logging.INFO(className, list.name, "no spaces listed for faculty user" + id);
-              return res.sendStatus(422);
-            }
-            let studentIDStrings = [];
-            result.forEach(function(space){
-              if(space.faculty.contains(id)) {
-                logging.INFO(className, list.name, "searching faculty " + id + " searching space " + space._id);
-                if(space.students !== undefined){
-                  studentIDStrings = space.students;
+
+              res.sendStatus(422);
+            }else {
+              let studentIDStrings = [];
+              //logger.info("results for faculty search" + JSON.stringify(result));
+              result.forEach(function(space){
+                if(space.faculty !== undefined && space.faculty.indexOf(id) > -1) {
+                  logging.INFO(className, list.name, "searching faculty " + id + " searching space " + space._id);
+                  if(space.students !== undefined){
+                    studentIDStrings = space.students;
+                  }
+
                 }
+              });
+              let studentIds = studentIDStrings.map(function(studentID){return ObjectId(studentID)});
+              if(studentIds.length > 0)
+              {
+                let query = {"active":true, "entity_id":entity_id, "_id" :{$in: studentIds}};
+                logging.INFO(className, list.name, "userDetail query : " + JSON.stringify(query));
+                db.collection('userDetail').find({"_id" :{$in: studentIDStrings.map(function(studentID){return ObjectId(studentID)})}}).toArray(function(err, userresult){
 
+                  if (err) {
+                    logging.ERROR(err, className, list.name, "error in userdetail query");
+                    return res.sendStatus(422);
+                  }
+
+                  let userDetailResult = {
+                    "data" : userresult
+                  };
+
+                  res.json(userDetailResult);
+                });
               }
-              })
-            });
-            let studentIds = [];
-            studentIDStrings.forEach(function(student){
-              studentIds.push(mongo.ObjectID(student));
-            });
-            db.collection('userDetail').find({"active":true, "entity_id":entity_id, "_id" :{$in: studentIds}}).toArray(function(err, result){
-              if (err) return console.log(err);
+              else {
+                res.json(studentIds);
+              }
+            }
 
-              let userDetailResult = {
-                "data" : result
-              };
-              res.json(userDetailResult);
-            });
+          });
         }
+        else{
+          logging.INFO(className, list.name, "user is admin");
+          db.collection('userDetail').find({"active":true, "entity_id":entity_id.str}).toArray(function(err, result){
+            if (err) return console.log(err);
 
+            let userResult = {
+              data : result
+            };
 
-        logging.INFO(className, list.name, "user is admin");
-        db.collection('userDetail').find({"active":true, "entity_id":entity_id.str}).toArray(function(err, result){
-          if (err) return console.log(err);
-
-          let userResult = {
-            data : result
-          };
-
-          res.json(userResult);
-        })
+            res.json(userResult);
+          })
+        }
       }
       else{
         logging.INFO(className,list.name, "entity type is vendor");

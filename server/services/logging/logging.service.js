@@ -11,3 +11,19 @@ export function INFORMATION(className, message){
 export function ERROR(exception, className, methodName, message){
   console.log("[ERROR] - [" + className + "] [" + methodName + "] - Exception : " + exception + " - Message : " + message );
 }
+
+export function Logger (gState, klass) {
+  this.debug = {}
+
+  if (gState) {
+    for (var m in console)
+      if (typeof console[m] == 'function')
+        this.debug[m] = console[m].bind(console, klass.toString()+": ")
+  }else{
+    for (var m in console)
+      if (typeof console[m] == 'function')
+        this.debug[m] = function(){}
+  }
+  return this.debug
+}
+

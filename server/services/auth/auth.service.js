@@ -11,6 +11,7 @@ export function isAuthenticated(){
   // Validate jwt
     .use(function(req, res, next) {
       let applicationfound = false;
+      logging.INFO(className, isAuthenticated.name, req.headers);
       if(req.headers.authorization === undefined){
         return res.sendStatus(403);
       }
