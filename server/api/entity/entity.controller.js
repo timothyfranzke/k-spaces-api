@@ -145,7 +145,8 @@ export function update(req, res){
   let associatedEntityId = req.params.id;
   let entityId = objectID(req.user.entity_id);
 
-  let entityQuery = {_id:entityId}, {$push:{associated_entities:associatedEntityId}};
+  //let entityQuery = {{"_id":entityId}, {"$push":{"associated_entities":associatedEntityId}}};
+  let entityQuery = {};
   logger.DEBUG(config.information.COLLECTION_QUERY("entity", entityQuery));
 
   db.collection('entity').findOneAndUpdate(entityQuery, function(err, entityResult){

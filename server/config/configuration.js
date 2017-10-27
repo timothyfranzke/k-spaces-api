@@ -4,7 +4,8 @@ module.exports = {
     {'id':'593e0abbf36d2806fcd56c8b','secret':'tasmanianDevil'},
     {'id':'596542b4f36d2836aab1a45d','secret':'bugsBunny'},
     {'id':'59e0c23a734d1d1c37fbb760','secret':'itshardtostopatrain'},
-    {'id':'59e178a8734d1d1c37fc3c52','secret':'peterpan'}
+    {'id':'59e178a8734d1d1c37fc3c52','secret':'peterpan'},
+    {'id':'59f23f65f36d2855693144f5','secret':'scaryStories'}
   ],
   'userRoles' : {
     'FACULTY':'faculty',
