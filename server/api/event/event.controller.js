@@ -82,7 +82,7 @@ export function create(req,res){
 
 export function update(req, res){
   let db = require('../../services/db/db.service').getDb();
-  let logger = logging.Logger(className, create.name, config.log_level);
+  let logger = logging.Logger(className, update.name, config.log_level);
   let event_id = objectID(req.params.id);
   delete req.body._id;
 
@@ -111,7 +111,7 @@ export function update(req, res){
 
 export function remove(req, res){
   let db = require('../../services/db/db.service').getDb();
-  let logger = logging.Logger(className, create.name, config.log_level);
+  let logger = logging.Logger(className, remove.name, config.log_level);
   let event_id = objectID(req.params.id);
 
   let eventQuery = {active:false};
