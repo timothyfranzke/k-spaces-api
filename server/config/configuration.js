@@ -22,6 +22,7 @@ module.exports = {
   'information':{
     'COLLECTION_INSERT' : function(collectionName, insertData) { return "Collection : " + collectionName + ", InsertData : " + JSON.stringify(insertData)},
     'COLLECTION_QUERY': function(collectionName, query) { return "Collection : " + collectionName + ", Query : " + JSON.stringify(query)},
+    'COLLECTION_UPDATE': function(collectionName, id, updateData) { return "Collection : " + collectionName + " id : " + id + ", UpdateData : " + JSON.stringify(updateData)},
     'COLLECTION_SUCCEEDED_WITH_RESULT': function(collectionName, result){return "Collection :" + collectionName + ", Status : succeeded,  Result : " + JSON.stringify(result)}
   },
   'log_level':'DEBUG'

@@ -1,18 +1,20 @@
 let mongo = require('mongodb');
+let objectID = require('mongodb').ObjectId;
 let logging = require('../../services/logging/logging.service');
 let config = require('../../config/configuration');
 let className = 'entity.controller';
 
 //event
 export function list(req, res){
-    let db = require('../../services/db/db.service').getDb();
-    let logger = logging.Logger(className, get.name, config.log_level);
+  let db = require('../../services/db/db.service').getDb();
+  let logger = logging.Logger(className, get.name, config.log_level);
 
-    let entity_id = req.user.entity_id;
-    let eventQuery = {active:true, entity_id:entity_id};
-    logger.DEBUG(config.information.COLLECTION_QUERY("event", eventQuery));
+  let entity_id = req.user.entity_id;
+  let eventQuery = {active:true, entity_id:entity_id};
+  logger.DEBUG(config.information.COLLECTION_QUERY("event", eventQuery));
 
-    db.collection('event').find(eventQuery).toArray(function(err, eventResult){
+  try {
+    db.collection('event').find(eventQuery).toArray(function (err, eventResult) {
       if (err) {
         logger.ERROR(err, config.exceptions.COLLECTION_FAILED("event"));
         res.sendStatus(422);
@@ -29,51 +31,108 @@ export function list(req, res){
         }
       }
     })
+  }
+  catch(err){
+    logger.ERROR(err, config.exceptions.COLLECTION_FAILED("entity"));
+
+    res.sendStatus(422);
+  }
 }
 
 export function get(req,res){
-    let db = require('../../services/db/db.service').getDb();
-    var id = mongo.ObjectID(req.params.id);
+  let db = require('../../services/db/db.service').getDb();
+  var id = mongo.ObjectID(req.params.id);
 
-    db.collection('event').find( {"_id" : id}).toArray(function(err,result){
-        if (err) return console.log(err);
+  db.collection('event').find( {"_id" : id}).toArray(function(err,result){
+    if (err) return console.log(err);
 
-        res.json(result);
-    })
-};
+    res.json(result);
+  })
+}
 
 export function create(req,res){
-    let db = require('../../services/db/db.service').getDb();
-    req.body.active = true;
-    req.body.date_created = Date.now();
-    //req.body.entity_id = req.params.entity_id;
+  let db = require('../../services/db/db.service').getDb();
+  let logger = logging.Logger(className, create.name, config.log_level);
 
-    db.collection('event').insert(req.body, function(err, entityResult){
-        if (err) return console.log(err);
+  req.body.active = true;
+  req.body.date_created = Date.now();
+  req.body.entity_id = req.user.entity_id;
 
-        res.json(entityResult);
+  logger.DEBUG(config.information.COLLECTION_INSERT("event", req.body));
+
+  try {
+    db.collection('event').insert(req.body, function(err, eventResult){
+      if (err){
+        logger.ERROR(err, config.exceptions.COLLECTION_FAILED("event"));
+        res.sendStatus(422);
+      }
+      else {
+        logger.DEBUG(config.information.COLLECTION_SUCCEEDED_WITH_RESULT("event", eventResult));
+
+        res.json(eventResult);
+      }
     })
-};
+  }
+  catch(err){
+    logger.ERROR(err, config.exceptions.COLLECTION_FAILED("entity"));
+
+    res.sendStatus(422);
+  }
+}
 
 export function update(req, res){
-    let db = require('../../services/db/db.service').getDb();
-    var id = mongo.ObjectID(req.params.id);
-    delete req.body._id;
+  let db = require('../../services/db/db.service').getDb();
+  let logger = logging.Logger(className, create.name, config.log_level);
+  let event_id = objectID(req.params.id);
+  delete req.body._id;
 
-    db.collection('event').findOneAndUpdate({"_id":id}, {$set : req.body}, function(err, result){
-        if (err) return console.log(err);
+  let eventQuery = req.body;
+  logger.DEBUG(config.information.COLLECTION_UPDATE("event", event_id, eventQuery));
 
-        res.json(result);
+  try{
+    db.collection('event').findOneAndUpdate({_id:event_id}, {$set : req.body}, function(err, eventResult){
+      if (err){
+        logger.ERROR(err, config.exceptions.COLLECTION_FAILED("event"));
+        res.sendStatus(422);
+      }
+      else {
+        logger.DEBUG(config.information.COLLECTION_SUCCEEDED_WITH_RESULT("event", eventResult));
+
+        res.json(eventResult);
+      }
     })
-};
+  }
+  catch(err){
+    logger.ERROR(err, config.exceptions.COLLECTION_FAILED("event"));
+
+    res.sendStatus(422);
+  }
+}
 
 export function remove(req, res){
-    let db = require('../../services/db/db.service').getDb();
-    var id = mongo.ObjectID(req.params.id);
+  let db = require('../../services/db/db.service').getDb();
+  let logger = logging.Logger(className, create.name, config.log_level);
+  let event_id = objectID(req.params.id);
 
-    db.collection('event').findOneAndUpdate({"_id":id}, {$set : {"active":false}}, function(err, result){
-        if (err) return console.log(err);
+  let eventQuery = {active:false};
+  logger.DEBUG(config.information.COLLECTION_UPDATE("event", event_id, eventQuery));
 
-        res.json(result);
+  try{
+    db.collection('event').findOneAndUpdate({_id: event_id}, {$set : eventQuery}, function(err, eventResult){
+      if (err){
+        logger.ERROR(err, config.exceptions.COLLECTION_FAILED("event"));
+        res.sendStatus(422);
+      }
+      else {
+        logger.DEBUG(config.information.COLLECTION_SUCCEEDED_WITH_RESULT("event", eventResult));
+
+        res.json(eventResult);
+      }
     })
-};
+  }
+  catch(err){
+    logger.ERROR(err, config.exceptions.COLLECTION_FAILED("event"));
+
+    res.sendStatus(422);
+  }
+}
