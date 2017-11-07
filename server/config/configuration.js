@@ -5,7 +5,9 @@ module.exports = {
     {'id':'596542b4f36d2836aab1a45d','secret':'bugsBunny'},
     {'id':'59e0c23a734d1d1c37fbb760','secret':'itshardtostopatrain'},
     {'id':'59e178a8734d1d1c37fc3c52','secret':'peterpan'},
-    {'id':'59f23f65f36d2855693144f5','secret':'scaryStories'}
+    {'id':'59f23f65f36d2855693144f5','secret':'scaryStories'},
+    {'id':'5a01c8a0734d1d2e7b02678f','secret':'tasmanianDevil'},
+    {'id':'5a01c920734d1d2e7b026841','secret':'itshardtostopatrain'}
   ],
   'userRoles' : {
     'FACULTY':'faculty',
