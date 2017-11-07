@@ -1,19 +1,35 @@
 let mongo = require('mongodb');
+let logging = require('../../services/logging/logging.service');
+let config = require('../../config/configuration');
+let className = 'entity.controller';
 
 //event
-export function list(req,res){
+export function list(req, res){
     let db = require('../../services/db/db.service').getDb();
-    let entity_id = req.params.entity_id;
+    let logger = logging.Logger(className, get.name, config.log_level);
 
-    db.collection('event').find({"active":true, "entity_id":entity_id}).toArray(function(err, result){
-        if (err) return console.log(err);
+    let entity_id = req.user.entity_id;
+    let eventQuery = {active:true, entity_id:entity_id};
+    logger.DEBUG(config.information.COLLECTION_QUERY("event", eventQuery));
 
-        let eventResult = {
-            data : result
-        };
-        res.json(eventResult);
+    db.collection('event').find(eventQuery).toArray(function(err, eventResult){
+      if (err) {
+        logger.ERROR(err, config.exceptions.COLLECTION_FAILED("event"));
+        res.sendStatus(422);
+      }
+      else {
+        {
+          logger.DEBUG(config.information.COLLECTION_SUCCEEDED_WITH_RESULT("event", eventResult));
+
+          let eventResponse = {
+            data: eventResult
+          };
+
+          res.json(eventResponse);
+        }
+      }
     })
-};
+}
 
 export function get(req,res){
     let db = require('../../services/db/db.service').getDb();
