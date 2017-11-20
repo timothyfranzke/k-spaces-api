@@ -9,6 +9,7 @@
   "author": "Timothy Franzke",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.17.1",
     "base-64": "^0.1.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.16.1",

@@ -1,5 +1,5 @@
 module.exports = {
-  'database': 'mongodb://tech-app:Password1@ds143141.mlab.com:43141/techauthentication',
+  'database': 'mongodb://spaces-app:TimDaveAndSteve@ds145370.mlab.com:45370/spaces',
   'secrets' : [
     {'id':'593e0abbf36d2806fcd56c8b','secret':'tasmanianDevil'},
     {'id':'596542b4f36d2836aab1a45d','secret':'bugsBunny'},
@@ -15,6 +15,20 @@ module.exports = {
     'PARENT':'parent',
     'ADMIN':'admin'
   },
+  'enumerations':{
+    'groupManagementTypes':{
+      'FACULTY':'faculty',
+      'STUDENT':'user',
+      'PARENT':'parent',
+      'ADMIN':'admin',
+      'EVENT':'event',
+      'SPACE':'space',
+      'LOCATION':'location',
+      'PHOTO':'photo',
+      'VIDEO':'video',
+      'USER':'user'
+    }
+  },
   'exceptions':{
     'COLLECTION_FAILED' : function(collectionName){return "Collection : " + collectionName + ", Status : failed"},
     'COLLECTION_RETURNED_NULL' : function(collectionName) {return "Collection : " + collectionName + ", Status : failed,  Result : null or undefined"}
@@ -25,6 +39,30 @@ module.exports = {
     'COLLECTION_UPDATE': function(collectionName, id, updateData) { return "Collection : " + collectionName + " id : " + id + ", UpdateData : " + JSON.stringify(updateData)},
     'COLLECTION_SUCCEEDED_WITH_RESULT': function(collectionName, result){return "Collection :" + collectionName + ", Status : succeeded,  Result : " + JSON.stringify(result)}
   },
-  'log_level':'DEBUG'
+  'log_formatter':{
+    'api':{
+      'exceptions':{
+        'GET_REQUEST':function(apiName, error){return "Method : GET, API : " + apiName + ", Error : " + error},
+        'POST_REQUEST':function(apiName, postData, error){return "Method : POST, API : " + apiName + ", PostData : "+ JSON.stringify(postData) +", Error : " + error},
+        'DELETE_REQUEST':function(apiName, error){return "Method : DELETE, API : " + apiName + ", Error : " + error}
+      },
+      'information':{
+        'GET_REQUEST':function(apiName, responseData) { return "Method : GET, API  : " + apiName + ", ResponseData : " + JSON.stringify(responseData)},
+        'POST_REQUEST':function(apiName, postData, responseData) { return "Method : POST, API  : " + apiName + ", PostData : "+ JSON.stringify(postData) +", ResponseData : " + JSON.stringify(responseData)},
+        'DELETE_REQUEST':function(apiName, responseData) { return "Method : DELETE, API  : " + apiName + ", ResponseData : " + JSON.stringify(responseData)}
+      }
+    }
+  },
+  'log_level':'DEBUG',
+  'apis':{
+    'group_mgmt': {
+      base:'https://tech-spaces-group-mgmt-api.herokuapp.com',
+      group: '/api/group',
+      member: '/member'
+    },
+    'security':{
+      base:'https://tech-spaces-security-api.herokuapp.com/'
+    }
+  }
   //'database'   : 'mongodb://localhost/techauthentication'
 };

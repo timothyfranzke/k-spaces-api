@@ -11,6 +11,7 @@ var ExtractJwt = passportJWT.ExtractJwt;
 var JwtStrategy = passportJWT.Strategy;
 var morgan      = require('morgan');
 var mongoose    = require('mongoose');
+let config      = require('./server/config/configuration');
 
 var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 
@@ -68,6 +69,9 @@ app.use("/auth", express.static(__dirname + "/public/auth"));
 
 //app.use("/api/message", require('./server/api/message'));
 
+mongoose.connect(config.database, function(err){
+
+});
 _db.connectToServer(function(){
     app.listen(process.env.PORT || 3008, function(){
         console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
