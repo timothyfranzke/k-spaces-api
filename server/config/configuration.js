@@ -26,7 +26,8 @@ module.exports = {
       'LOCATION':'location',
       'PHOTO':'photo',
       'VIDEO':'video',
-      'USER':'user'
+      'USER':'user',
+      'ACTIVITY':'activity'
     }
   },
   'exceptions':{
