@@ -57,6 +57,7 @@ app.use("/api/payment", require('./server/api/payment'));
 app.use("/api/financial/pay-period", require('./server/api/financial/payment_period'));
 app.use("/api/financial/tuition_rate", require('./server/api/financial/tuition_rate'));
 app.use("/api/activity", require('./server/api/activity'));
+app.use("/api/note", require('./server/api/notes'));
 
 app.use("/api/vendor/user", require('./server/api/vendor/user-detail'));
 app.use("/api/vendor/event", require('./server/api/vendor/event'));

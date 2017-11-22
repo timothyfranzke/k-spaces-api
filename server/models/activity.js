@@ -11,5 +11,6 @@ module.exports = mongoose.model('Activity', new Schema({
   ],
   start_date: { type: Date, default: Date.now },
   end_date:{ type: Date, default: Date.now },
+  is_active:{type:Boolean, default: true},
   notes: String
 }));

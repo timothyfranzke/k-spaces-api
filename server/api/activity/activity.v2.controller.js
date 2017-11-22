@@ -14,53 +14,50 @@ const CLASS_NAME  = 'activity.v2.controller';
 //location
 export function list(req,res){
   let logger = logging.Logger(CLASS_NAME, list.name, config.log_level);
+  let user_id = req.user.id;
 
-  let entity_id = req.user.entity_id;
-  logger.DEBUG(config.information.COLLECTION_QUERY("activity", entity_id));
+  logger.DEBUG(config.information.COLLECTION_QUERY("activity", user_id));
 
-  Location.find({entity_id:entity_id, is_active:true})
-    .exec(function(err, locationResult){
+  groupMgmt.getFilteredDetail(user_id, config.enumerations.groupManagementTypes.ACTIVITY, function(err, groupManagementResult){
       if (err) {
-        logger.ERROR(err, config.exceptions.COLLECTION_FAILED("location"));
-        res.sendStatus(422);
+        logger.ERROR(err, config.log_formatter.api.exceptions.GET_REQUEST('Group Mgmt', err));
+        res.status(422);
+        res.send(config.http_responses.exceptions.GET_ERROR('Activity'));
       }
       else {
         {
-          logger.DEBUG(config.information.COLLECTION_SUCCEEDED_WITH_RESULT("location", locationResult));
+          logger.DEBUG(config.information.COLLECTION_SUCCEEDED_WITH_RESULT('activity', groupManagementResult));
 
-          let locationResponse = {
-            data: locationResult
+          let activityResponse = {
+            data: groupManagementResult.memberOf.Activity
           };
 
-          res.json(locationResponse);
+          res.json(activityResponse);
         }
       }
     });
 }
 
 export function get(req,res){
-  let db = require('../../services/db/db.service').getDb();
   let logger = logging.Logger(CLASS_NAME, list.name, config.log_level);
 
-  let id = req.params.id;
-  logger.DEBUG(config.information.COLLECTION_QUERY("location", id));
+  let id = req.params.activityId;
+  logger.DEBUG(config.information.COLLECTION_QUERY('activity', id));
 
-
-  Location.findById(id)
-    .exec(function(err, locationResult){
+  Activity.findById(id)
+    .exec(function(err, activityResult){
       if (err) {
-        logger.ERROR(err, config.exceptions.COLLECTION_FAILED("location"));
-        res.sendStatus(422);
+        logger.ERROR(err, config.exceptions.COLLECTION_FAILED('activity'));
+        res.status(422);
+        res.send(config.http_responses.exceptions.GET_ERROR('activity'))
       }
       else {
         {
-          logger.DEBUG(config.information.COLLECTION_SUCCEEDED_WITH_RESULT("location", locationResult));
+          logger.DEBUG(config.information.COLLECTION_SUCCEEDED_WITH_RESULT('activity', activityResult));
 
           let locationResponse = {
-            data: {
-              location  : locationResult,
-              group     : groupMgmt.get(id)
-            }
+            data: activityResult
+
           };
 
           res.json(locationResponse);
@@ -112,29 +109,24 @@ export function create(req,res){
       });
     }
   });
-};
-
-export function update(req, res){
-  let db = require('../../services/db/db.service').getDb();
-  var id = mongo.ObjectID(req.params.id);
-  delete req.body._id;
-  var entity_id = req.user.entity_id;
-
-  db.collection('location').findOneAndUpdate({"_id":id, "entity_id":entity_id}, {$set : req.body}, function(err, result){
-    if (err) return console.log(err);
-
-    res.json(result);
-  })
-};
+}
 
 export function remove(req, res){
-  let db = require('../../services/db/db.service').getDb();
-  var id = mongo.ObjectID(req.params.id);
-  var entity_id = req.user.entity_id;
+  let logger = logging.Logger(className, list.name, config.log_level);
+  let id =  req.params.id;
 
-  db.collection('location').findOneAndUpdate({"_id":id, "entity_id":entity_id}, {$set : {"active":false}}, function(err, result){
-    if (err) return console.log(err);
+  let entityQuery = {active:true, _id: entity_id };
+  logger.DEBUG(config.information.COLLECTION_QUERY("location", entityQuery));
 
-    res.json(result);
-  })
-};
+  Activity.findByIdAndUpdate(id, {is_active : false}, function(err, activityUpdateResponse){
+    if(err){
+      logger.ERROR(err, config.log_formatter.db.exceptions.COLLECTION_FAILED('activity'));
+      res.status(422);
+      res.send(config.http_responses.exceptions.UPDATE_ERROR('activity'));
+    }
+    else{
+      res.status(200);
+      res.send(config.http_responses.information.REMOVE_SUCCESS('activity'));
+    }
+  });
+}

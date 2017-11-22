@@ -18,7 +18,7 @@ module.exports = {
   'enumerations':{
     'groupManagementTypes':{
       'FACULTY':'faculty',
-      'STUDENT':'user',
+      'STUDENT':'student',
       'PARENT':'parent',
       'ADMIN':'admin',
       'EVENT':'event',
@@ -27,7 +27,23 @@ module.exports = {
       'PHOTO':'photo',
       'VIDEO':'video',
       'USER':'user',
-      'ACTIVITY':'activity'
+      'ACTIVITY':'activity',
+      'NOTE':'note'
+    },
+    'filterTypes':{
+      'ALL':'all'
+    }
+  },
+  'http_responses':{
+    'information':{
+      'CREATE_SUCCESS': function(collectionName){return collectionName + " created successfully"},
+      'UPDATE_SUCCESS': function(collectionName){return collectionName + " updated successfully"},
+      'REMOVE_SUCCESS': function(collectionName){return collectionName + " removed successfully"}
+    },
+    'exceptions':{
+      'UPDATE_ERROR': function(collectionName){return "Error occurred while updating" + collectionName},
+      'CREATE_ERROR':function(collectionName){return "Error occurred while updating" + collectionName},
+      'GET_ERROR':function(collectionName){return "Error occurred while retrieving" + collectionName}
     }
   },
   'exceptions':{
@@ -51,6 +67,18 @@ module.exports = {
         'GET_REQUEST':function(apiName, responseData) { return "Method : GET, API  : " + apiName + ", ResponseData : " + JSON.stringify(responseData)},
         'POST_REQUEST':function(apiName, postData, responseData) { return "Method : POST, API  : " + apiName + ", PostData : "+ JSON.stringify(postData) +", ResponseData : " + JSON.stringify(responseData)},
         'DELETE_REQUEST':function(apiName, responseData) { return "Method : DELETE, API  : " + apiName + ", ResponseData : " + JSON.stringify(responseData)}
+      }
+    },
+    'db':{
+      'exceptions':{
+        'COLLECTION_FAILED' : function(collectionName){return "Collection : " + collectionName + ", Status : failed"},
+        'COLLECTION_RETURNED_NULL' : function(collectionName) {return "Collection : " + collectionName + ", Status : failed,  Result : null or undefined"}
+      },
+      'information':{
+        'COLLECTION_INSERT' : function(collectionName, insertData) { return "Collection : " + collectionName + ", InsertData : " + JSON.stringify(insertData)},
+        'COLLECTION_QUERY': function(collectionName, query) { return "Collection : " + collectionName + ", Query : " + JSON.stringify(query)},
+        'COLLECTION_UPDATE': function(collectionName, id, updateData) { return "Collection : " + collectionName + " id : " + id + ", UpdateData : " + JSON.stringify(updateData)},
+        'COLLECTION_SUCCEEDED_WITH_RESULT': function(collectionName, result){return "Collection :" + collectionName + ", Status : succeeded,  Result : " + JSON.stringify(result)}
       }
     }
   },
