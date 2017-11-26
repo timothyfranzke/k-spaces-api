@@ -14,6 +14,8 @@ router.put('/:id', auth.hasRole('admin'), controller.update);
 router.delete('/:id', auth.hasRole('admin'), controller.remove);
 
 router.post('/v2/', auth.hasRole('admin'), controllerV2.create);
+router.get('/v2/', auth.hasRole('admin'), controllerV2.list);
+router.get('/v2/:spaceId', auth.isAuthenticated(), controllerV2.get);
 
 module.exports = router;
 

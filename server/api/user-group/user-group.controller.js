@@ -2,7 +2,7 @@ let mongo = require('mongodb');
 
 
 export function list(req,res){
-    var entity_id = req.user.entity_id;
+    let entity_id = req.user.entity_id;
     console.log(entity_id);
 
     let db = require('../../services/db/db.service').getDb();

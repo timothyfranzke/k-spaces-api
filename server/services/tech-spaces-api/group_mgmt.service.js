@@ -12,14 +12,66 @@ let formatter          = config.log_formatter.api;
 let enums              = config.enumerations;
 
 //models
-let User              = require('../../models/userDetail');
+let UserDetail        = require('../../models/userDetail');
 let Location          = require('../../models/location');
 let Space             = require('../../models/space');
 let Activity          = require('../../models/activity');
 let Note              = require('../../models/note');
+let Request           = require('../../models/request');
 
 //constants
 const className = 'group_mgmt.service';
+
+export function getIds(id, callback){
+  let logger = logging.Logger(className, getDetail.name, config.log_level);
+  let url = groupMgmtConfig.base + groupMgmtConfig.group + '/' + id;
+
+  logger.INFO("Calling api with url: " + url);
+
+  axios.get(url)
+    .then(function (response) {
+      logger.DEBUG("returning");
+      logger.DEBUG(formatter.information.GET_REQUEST(groupMgmtConfig.base, response.data));
+
+      callback(null, response.data.data);
+    })
+    .catch(function (err){
+      logger.ERROR(err, formatter.exceptions.GET_REQUEST(groupMgmtConfig.base, err));
+
+      callback(err);
+    });
+}
+
+export function getFilteredIds(id, filter, callback){
+  let logger = logging.Logger(className, getDetail.name, config.log_level);
+  let url = groupMgmtConfig.base + groupMgmtConfig.group + '/' + id;
+
+  logger.INFO("Calling api with url: " + url);
+
+  axios.get(url)
+    .then(function (response) {
+      logger.DEBUG("returning");
+      logger.DEBUG(formatter.information.GET_REQUEST(groupMgmtConfig.base, response.data));
+
+      let groupMembers=[]
+      response.data.data.group.forEach(function(group){
+        if(group.type === filter){
+          groupMembers.push(group)
+        }
+      });
+
+      let groupData = {
+        group : groupMembers
+      };
+
+      callback(null, groupData);
+    })
+    .catch(function (err){
+      logger.ERROR(err, formatter.exceptions.GET_REQUEST(groupMgmtConfig.base, err));
+
+      callback(err);
+    });
+}
 
 export function getDetail(id, callback){
   let logger = logging.Logger(className, getDetail.name, config.log_level);
@@ -34,23 +86,20 @@ export function getDetail(id, callback){
 
       let memberOf  = {};
       let groupMembers = {};
-      if(response.data.data.group_members !== null && response.data.data.group_members !== undefined){
-        groupMembers = loadMembersData(response.data.data.group_members, 0, {});
-      }
-      if(response.data.data.member_of !== null && response.data.data.member_of !== undefined){
-        logger.INFO("loading group members");
-        loadMembersData(response.data.data.member_of, config.enumerations.filterTypes.ALL, function(err, memberOfResponse){
-          memberOf = memberOfResponse;
+      if(response.data.data.group !== null && response.data.data.group !== undefined){
+        loadMembersData(response.data.data.group, config.enumerations.filterTypes.ALL, function(err, groupMembersResponse){
+          groupMembers = groupMembersResponse;
+          logger.DEBUG(JSON.stringify(groupMembersResponse));
+
           let groupData = {
-            //groupMembers : groupMembers,
-            memberOf : memberOf
+            group : groupMembers
           };
           logger.INFO(JSON.stringify(groupData));
+
           callback(null, groupData);
+
         });
       }
-
-
     })
     .catch(function (err) {
       logger.ERROR(err, formatter.exceptions.GET_REQUEST(groupMgmtConfig.base, err));
@@ -60,7 +109,7 @@ export function getDetail(id, callback){
 }
 
 export function getFilteredDetail(id, filter, callback){
-  let logger = logging.Logger(className, getFilteredDetail.name, config.log_level);
+  let logger = logging.Logger(className, getDetail.name, config.log_level);
   let url = groupMgmtConfig.base + groupMgmtConfig.group + '/' + id;
 
   logger.INFO("Calling api with url: " + url);
@@ -72,19 +121,18 @@ export function getFilteredDetail(id, filter, callback){
 
       let memberOf  = {};
       let groupMembers = {};
-      if(response.data.data.group_members !== null && response.data.data.group_members !== undefined){
-        groupMembers = loadMembersData(response.data.data.group_members, 0, {});
-      }
-      if(response.data.data.member_of !== null && response.data.data.member_of !== undefined){
-        logger.INFO("loading group members");
-        loadMembersData(response.data.data.member_of, filter, function(err, memberOfResponse){
-          memberOf = memberOfResponse;
+      if(response.data.data.group !== null && response.data.data.group !== undefined){
+        loadMembersData(response.data.data.group, filter, function(err, groupMembersResponse){
+          groupMembers = groupMembersResponse;
+          logger.DEBUG(JSON.stringify(groupMembersResponse));
+
           let groupData = {
-            //groupMembers : groupMembers,
-            memberOf : memberOf
+            group : groupMembers
           };
           logger.INFO(JSON.stringify(groupData));
+
           callback(null, groupData);
+
         });
       }
     })
@@ -111,7 +159,7 @@ export function create(data, callback){
     });
 }
 
-export function removeMember(id, memberId){
+export function removeMember(id, memberId, callback){
   let logger = logging.Logger(className, get.name, config.log_level);
 
   axios.delete(groupMgmtConfig.base + groupMgmtConfig.group + id + groupMgmtConfig.member + "/" + memberId)
@@ -127,56 +175,89 @@ export function removeMember(id, memberId){
     });
 }
 
+export function removeMemberBulk(id, memberIds, callback){
+  let logger = logging.Logger(className, get.name, config.log_level);
+  let numberProcessed = 0;
+
+  memberIds.forEach(function(memberId){
+    axios.delete(groupMgmtConfig.base + groupMgmtConfig.group + id + groupMgmtConfig.member + "/" + memberId)
+      .then(function (response) {
+        logger.DEBUG(formatter.information.GET_REQUEST(groupMgmtConfig.base, response));
+
+        numberProcessed++;
+        if(numberProcessed === memberIds.length){
+          callback();
+        }
+      })
+      .catch(function (err) {
+        logger.ERROR(formatter.exceptions.GET_REQUEST(groupMgmtConfig.base, err));
+
+        numberProcessed++;
+        if(numberProcessed === memberIds.length){
+          callback();
+        }
+      });
+  })
+}
 
 function loadMembersData(members, filter, callback){
   let logger = logging.Logger(className, loadMembersData.name, config.log_level);
 
   let numberCompleted = 0;
   let completed = {};
-
+  logger.DEBUG('filtering : ' + filter);
   for(let i = 0; i <  members.length; i++){
     let id = members[i]._id;
     let type = members[i].type;
+    if (type === config.enumerations.groupManagementTypes.PARENT || type === config.enumerations.groupManagementTypes.STUDENT ||  type === config.enumerations.groupManagementTypes.FACULTY){
+      type = config.enumerations.groupManagementTypes.USER;
+    }
     if(filter === config.enumerations.filterTypes.ALL || filter === type)
     {
       switch(type){
         case enums.groupManagementTypes.USER:
         {
-          security.getUserData(id, function(err, userResponse){
-            if(err){
-              callback(err);
-            }
-            else{
-              if(completed.Users === undefined){
-                completed.Users = [];
+          logger.DEBUG('searching users : ' + id);
+          UserDetail.findById(id)
+            .exec(function(err, userDetailResult){
+              if(err){
+                callback(err);
               }
-              completed.Users.push(userResponse);
-              numberCompleted++;
-              if(numberCompleted === members.length){
-                callback(null, completed);
+              else{
+                if(completed.users === undefined){
+                  completed.users = [];
+                }
+                completed.users.push(userDetailResult);
+                logger.DEBUG("found user : " + JSON.stringify(completed));
+                numberCompleted++;
+                if(numberCompleted === members.length){
+                  callback(null, completed);
+                }
               }
-            }
 
-          })
+            });
+          break;
         }
         case enums.groupManagementTypes.EVENT:
         {
+          logger.DEBUG('reached this piece : ' + JSON.stringify(members[i]));
           event.getEvent(id, function(err, eventResponse){
             if(err){
               callback(err);
             }
             else{
-              if(completed.Events === undefined){
-                completed.Events = [];
+              if(completed.events === undefined){
+                completed.events = [];
               }
-              completed.Events.push(eventResponse);
+              completed.events.push(eventResponse);
               numberCompleted++;
               if(numberCompleted === members.length){
                 callback(null, completed);
               }
             }
 
-          })
+          });
+          break;
         }
         case enums.groupManagementTypes.LOCATION:{
           Location.findById(id)
@@ -185,17 +266,18 @@ function loadMembersData(members, filter, callback){
                 callback(err);
               }
               else{
-                if(completed.Locations === undefined){
-                  completed.Locations = [];
+                if(completed.locations === undefined){
+                  completed.locations = [];
                 }
-                completed.Locations.push(locationResult);
+                completed.locations.push(locationResult);
                 numberCompleted++;
                 if(numberCompleted === members.length){
                   callback(null, completed);
                 }
               }
 
-            })
+            });
+          break;
         }
         case enums.groupManagementTypes.SPACE:{
           logger.INFO("searching spaces with id : " + id);
@@ -206,11 +288,11 @@ function loadMembersData(members, filter, callback){
                 callback(err);
               }
               else{
-                if(completed.Spaces === undefined){
-                  completed.Spaces = [];
+                if(completed.spaces === undefined){
+                  completed.spaces = [];
                 }
 
-                completed.Spaces.push(spaceResult);
+                completed.spaces.push(spaceResult);
                 numberCompleted++;
                 logger.INFO("members : " + members.length + " number completed : " + numberCompleted );
                 if(numberCompleted === members.length){
@@ -218,7 +300,8 @@ function loadMembersData(members, filter, callback){
                 }
               }
 
-            })
+            });
+          break;
         }
         case enums.groupManagementTypes.ACTIVITY:{
           Activity.findById(id)
@@ -227,36 +310,63 @@ function loadMembersData(members, filter, callback){
                 callback(err);
               }
               else{
-                if(completed.Activity === undefined){
-                  completed.Activity = [];
+                if(completed.activities === undefined){
+                  completed.activities = [];
                 }
-                completed.Activity.push(activityResult);
+                completed.activities.push(activityResult);
                 numberCompleted++;
                 if(numberCompleted === members.length){
                   callback(null, completed);
                 }
               }
 
-            })
+            });
+          break;
         }
         case enums.groupManagementTypes.NOTE:{
+          logger.DEBUG("searching notes");
           Note.findById(id)
             .exec(function(err, noteResult){
               if(err){
                 callback(err);
               }
               else{
-                if(completed.Note === undefined){
-                  completed.Note = [];
+                if(completed.notes === undefined){
+                  completed.notes = [];
                 }
-                completed.Note.push(noteResult);
+                completed.notes.push(noteResult);
                 numberCompleted++;
                 if(numberCompleted === members.length){
                   callback(null, completed);
                 }
               }
 
-            })
+            });
+          break;
+        }
+        case enums.groupManagementTypes.REQUEST:{
+          logger.INFO("searching requests with id : " + id);
+          Request.findById(id)
+            .exec(function(err, requestResult){
+              if(err){
+                logger.ERROR(err, config.exceptions.COLLECTION_FAILED("request"));
+                callback(err);
+              }
+              else{
+                if(completed.requests === undefined){
+                  completed.requests = [];
+                }
+
+                completed.requests.push(requestResult);
+                numberCompleted++;
+                logger.INFO("members : " + members.length + " number completed : " + numberCompleted );
+                if(numberCompleted === members.length){
+                  callback(null, completed);
+                }
+              }
+
+            });
+          break;
         }
       }
     }
@@ -266,3 +376,28 @@ function loadMembersData(members, filter, callback){
   }
 }
 
+export function isIdAMember(id, memberId, callback){
+  let logger = logging.Logger(className, getDetail.name, config.log_level);
+  let url = groupMgmtConfig.base + groupMgmtConfig.group + '/' + id;
+  let isMember = false;
+
+  logger.INFO("Calling api with url: " + url);
+
+  axios.get(url)
+    .then(function (response) {
+      logger.DEBUG("member id : " + memberId);
+      logger.DEBUG(formatter.information.GET_REQUEST(groupMgmtConfig.base, response.data));
+      if(response.data.data !== undefined && response.data.data.group != undefined){
+        response.data.data.group.forEach(function(group){
+          if(group._id === memberId){
+            isMember = true;
+          }
+        });
+      }
+      callback(isMember);
+    })
+    .catch(function(err){
+      callback(isMember);
+    })
+
+}

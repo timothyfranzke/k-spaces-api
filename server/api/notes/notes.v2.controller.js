@@ -29,7 +29,7 @@ export function list(req,res){
         logger.DEBUG(config.information.COLLECTION_SUCCEEDED_WITH_RESULT('note', groupManagementResult));
 
         let activityResponse = {
-          data: groupManagementResult.memberOf.Note
+          data: groupManagementResult.group.notes
         };
 
         res.json(activityResponse);
@@ -39,7 +39,7 @@ export function list(req,res){
 }
 
 export function get(req,res){
-  let logger = logging.Logger(CLASS_NAME, list.name, config.log_level);
+  let logger = logging.Logger(CLASS_NAME, get.name, config.log_level);
 
   let id = req.params.noteId;
   logger.DEBUG(config.information.COLLECTION_QUERY('note', id));
@@ -70,8 +70,6 @@ export function create(req,res){
   let logger = logging.Logger(CLASS_NAME, create.name, config.log_level);
   let userId = req.user.id;
 
-  req.body.active = true;
-  req.body.date_created = Date.now();
   let note = new Note(req.body);
 
   note.save(function(err, noteResult){

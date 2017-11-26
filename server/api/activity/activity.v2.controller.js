@@ -29,7 +29,7 @@ export function list(req,res){
           logger.DEBUG(config.information.COLLECTION_SUCCEEDED_WITH_RESULT('activity', groupManagementResult));
 
           let activityResponse = {
-            data: groupManagementResult.memberOf.Activity
+            data: groupManagementResult.group.activities
           };
 
           res.json(activityResponse);

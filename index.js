@@ -49,7 +49,7 @@ app.use("/api/user", require('./server/api/user-detail'));
 app.use("/api/entity", require('./server/api/entity'));
 app.use("/api/user-group", require('./server/api/user-group'));
 app.use("/api/event", require('./server/api/event'));
-app.use("/api/spaces", require('./server/api/space'));
+app.use("/api/space", require('./server/api/space'));
 app.use("/api/location", require('./server/api/location'));
 app.use("/api/message", require('./server/api/message'));
 app.use("/api/profile", require('./server/api/profile'));

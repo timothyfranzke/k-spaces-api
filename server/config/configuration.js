@@ -1,5 +1,7 @@
 module.exports = {
   'database': 'mongodb://spaces-app:TimDaveAndSteve@ds145370.mlab.com:45370/spaces',
+  'applicaitonId':'593e0abbf36d2806fcd56c8b',
+  'securitySecret':'12253d7-7314-4838-b1b2-d9fa5c115968',
   'secrets' : [
     {'id':'593e0abbf36d2806fcd56c8b','secret':'tasmanianDevil'},
     {'id':'596542b4f36d2836aab1a45d','secret':'bugsBunny'},
@@ -17,6 +19,7 @@ module.exports = {
   },
   'enumerations':{
     'groupManagementTypes':{
+      'ENTITY':'entity',
       'FACULTY':'faculty',
       'STUDENT':'student',
       'PARENT':'parent',
@@ -28,10 +31,16 @@ module.exports = {
       'VIDEO':'video',
       'USER':'user',
       'ACTIVITY':'activity',
-      'NOTE':'note'
+      'NOTE':'note',
+      'REQUEST':'request'
     },
     'filterTypes':{
-      'ALL':'all'
+      'ALL':'all',
+      'NONE':'none'
+    },
+    'entityTypes':{
+      'DAYCARE':'daycare',
+      'VENDOR':'vendor'
     }
   },
   'http_responses':{
@@ -90,7 +99,9 @@ module.exports = {
       member: '/member'
     },
     'security':{
-      base:'https://tech-spaces-security-api.herokuapp.com/'
+      //base:'https://tech-spaces-security-api.herokuapp.com/',
+      base:'http://localhost:3009',
+      register:'/api/register/'
     }
   }
   //'database'   : 'mongodb://localhost/techauthentication'
